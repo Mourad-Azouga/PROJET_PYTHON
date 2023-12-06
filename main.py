@@ -16,6 +16,7 @@ materiaux = "Datashow"
 amphi1 = room(1, 1, "Amphi1", emploi, materiaux, 115)
 amphi2 = room(1, 2, "Amphi2", emploi, materiaux, 115)
 amphi3 = room(1, 3, "Amphi3", emploi, materiaux, 115)
+#WOWOWOWWOWOOW
 amphi4 = room(1, 4, "Amphi4", emploi, materiaux, 115)
 amphi5 = room(1, 5, "Amphi5", emploi, materiaux, 300)
 amphi6 = room(1, 6, "Amphi6", emploi, materiaux, 400)

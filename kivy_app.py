@@ -14,13 +14,13 @@ class main(App):
         self.title = 'TIMEXI - Gestion Emploi Du Temps'
         self.icon = "download.png"
         test = Image (
-            source = 'download.png',
-            size_hint = (.6, 0.3),
+            source = 'test.jpg',
+            size_hint = (.8, 0.3),
             pos_hint = {'x': 0, 'y': .7},
         )
         test2 = Image (
             source = 'download.png',
-            size_hint = (.6, 0.3),
+            size_hint = (1, 0.3),
             pos_hint = {'x': .5, 'y': .7}
         )
         test3 = Image (
