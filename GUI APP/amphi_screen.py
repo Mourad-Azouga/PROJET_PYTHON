@@ -42,8 +42,7 @@ class AmphiScreen(Screen):
         header.add_widget(settings)
         header.add_widget(quit_)
 
-        # Create a GridLayout to hold the content in a 3x2 grid
-        content_layout = GridLayout(cols=2, spacing=30, size_hint_y=None, padding=(50, 30, 30, 30))
+        content_layout = GridLayout(cols=2, spacing=30, size_hint_y=None, padding=(150, 30, 30, 30))
         content_layout.bind(minimum_height=content_layout.setter('height'))
 
         # Create six buttons and add them to the content layout
