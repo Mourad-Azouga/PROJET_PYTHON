@@ -1,10 +1,10 @@
 from header import *
-from kivy.app import App
 from amphi_screen import AmphiScreen
 from salle_screen import SalleScreen
 from settings import Settings
 Window.clearcolor = (146/255, 121/255, 167/255, 1)
 Window.size = (1200,600)
+
 
 class MainScreen(Screen):
     def __init__(self, **kwargs):
