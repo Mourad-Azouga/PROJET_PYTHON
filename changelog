@@ -10,3 +10,5 @@
 -THE GOOD STUFF! Made fully (kindof) working main GUI page with Amphi stuff and added pictures and everything -M
 -Added 4 new files header.py, salle_screen.py, settings.py and amphi_screen.py -M
 -Changed resolution to 1200-600, idk if it the ideal one or not -M
+#08/12/2023
+-Added some stuff and fixed the none working (I hate it) scroll stuff in amphi, we now support all resolutions! -M
