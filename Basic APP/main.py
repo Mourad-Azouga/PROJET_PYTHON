@@ -1,7 +1,6 @@
 from header import room
 from tabulate import tabulate
 
-
 #initalize les jours w les creneaux
 emploi = {
     'Lundi' : [('9:00 AM', '10:45 AM'), ('11:00 AM', '12:45 PM'), ('1:00 PM', '2:45 PM'), ('3:00 PM', '4:45 PM'), ('5:00 PM', '6:45 PM')],

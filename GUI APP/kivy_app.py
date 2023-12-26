@@ -1,5 +1,5 @@
 from header import *
-from amphi_screen import AmphiScreen
+from amphi_screen import AmphiScreen, AmphiFinal
 from salle_screen import SalleScreen
 from settings import Settings
 Window.clearcolor = (146/255, 121/255, 167/255, 1)
@@ -37,6 +37,7 @@ class MainScreen(Screen):
         header.add_widget(quit_)
         main_layout.add_widget(header)
 
+        #main buttons
         main_buttons = BoxLayout(
             orientation='horizontal',
             padding=(30, 30, 30, 30),
@@ -91,12 +92,14 @@ class MainApp(App):
         amphi_screen = AmphiScreen(name='amphi')
         salle_screen = SalleScreen(name='salle')
         settings = Settings(name='settings')
+        amphi_final = AmphiFinal(name='amphi_final')
+
 
         screen_manager.add_widget(main_screen)
         screen_manager.add_widget(amphi_screen)
         screen_manager.add_widget(salle_screen)
         screen_manager.add_widget(settings)
-
+        screen_manager.add_widget(amphi_final)
         return screen_manager
 
 
