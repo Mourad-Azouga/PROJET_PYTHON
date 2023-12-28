@@ -1,7 +1,7 @@
 # File: Amphi_screen.py
 from header import *
-from kivy.app import App  
-amphi_number = 0
+from kivy.app import App
+
 class AmphiScreen(Screen):
     def __init__(self, **kwargs):
         super(AmphiScreen, self).__init__(**kwargs)
@@ -158,7 +158,6 @@ class AmphiScreen(Screen):
 
         amphi_final_screen = self.manager.get_screen('amphi_final')
         amphi_final_screen.set_amphi_number(amphi_number)
-
         transition = SlideTransition(direction='left')
         self.manager.transition = transition
         self.manager.current = 'amphi_final'
@@ -180,7 +179,8 @@ class AmphiScreen(Screen):
 class AmphiFinal(Screen):
     def __init__(self, **kwargs):
         super(AmphiFinal, self).__init__(**kwargs)
-        self.amphi_number = amphi_number
+        self.set_amphi_number(0)
+        self.amphi_number = 0
 
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
 
@@ -219,13 +219,14 @@ class AmphiFinal(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
+        self.label = Label(text="", color=(1, 1, 1, 1))  # Create a label attribute
+        main_layout.add_widget(self.label)
 
         self.rect = Rectangle(size=self.size, pos=self.pos)
-        label_text = f"Amphi Number: {self.amphi_number}"
-        main_layout.add_widget(Label(text=label_text, color=(1, 1, 1, 1)))
 
         main_layout.add_widget(header)
         self.add_widget(main_layout)
+
 
     def dismiss(self, instance):
         transition = SlideTransition(direction='right')
@@ -240,4 +241,9 @@ class AmphiFinal(Screen):
 
     def set_amphi_number(self, amphi_number):
         self.amphi_number = amphi_number
-        return amphi_number
+        print(self.amphi_number, amphi_number, "the true value is here")
+        return self.amphi_number
+
+    def on_enter(self):
+        
+        self.label.text = f"{self.set_amphi_number(self.amphi_number)}"

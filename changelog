@@ -17,4 +17,6 @@
 -Created the backbone and the structure for the basic APP main and header.py -M
 -Fixed the class and made the methods to be added to the main -M
 -Added data.txt where we'll store the data so that it doesn't get thrown once we close the app -M
-
+###28/12/2023:
+-Forgot to add stuff, my bad but I added all the buttons for Amphi and Salle sections, they return a value to the final interface where the user
+will have the timetable and stuff
