@@ -57,35 +57,47 @@ salles = [salle_A_nums, salle_B_nums, salle_E_nums, salle_F_nums]
 #                                                           RESERVATION METHODS
 # ---------------------------------------------------------------------------------------------------------------------------------------#
 
+# ... (existing code)
+
 def make_res(type, section, num):
+    """Make a reservation and add it to the system"""
     room_instance = None
+
     if type == 1:
         # Amphi
         room_instance = amphis[num - 1]
     elif type == 2:
         # Class
         room_instance = salles[{'A': 0, 'B': 1, 'E': 2, 'F': 3}[section]][num - 1]
-
-    # Implement the reservation logic based on your requirements
-    day = input("Enter the day for the reservation: ")
-
-    # Check if the entered day is valid
-    if day not in emploi:
-        print("Invalid day entered. Please choose a valid day.")
-        return
-
-    # Check if the entered timeslot is valid
-    valid_timeslots = [slot for day_slots in room_instance.emploi.values() for slot in day_slots]
-    timeslot = input("Enter the timeslot for the reservation: ")
-    if timeslot not in valid_timeslots:
-        print("Invalid timeslot entered. Please choose a valid timeslot.")
-        return
-
-    if room_instance.make_reser(day, timeslot):
-        print("Reservation successful!")
-        print(room_instance[day])
     else:
-        print("Reservation failed. The timeslot might be already reserved.")
+        print("Invalid room type")
+        return
+
+    # Display the current timetable
+    display_timetable(type, section, num)
+
+    # Get user input for day and timeslot
+    day = input("Enter the day of the reservation: ")
+    timeslot = input("Enter the timeslot of the reservation: ")
+
+    # Check if the entered day and timeslot are valid in emploi
+    if day not in emploi or timeslot not in [slot[0] for slot in emploi[day]]:
+        print("Invalid day or timeslot. Please enter a valid day and timeslot.")
+        return
+
+    # Attempt to make the reservation
+    success = room_instance.make_reser(day, timeslot)
+
+    if success:
+        print("Reservation successful!")
+        #Add the saving method here
+        print(
+            f"You have reserved {room_instance.name} ({'Amphi' if type == 1 else 'Salle'} {section}{num}) on {day} at {timeslot}.")
+    else:
+        print("Reservation failed. The slot is already reserved.")
+
+
+# ... (existing code)
 
 
 def remove_res(type, section, num):
@@ -103,39 +115,17 @@ def remove_res(type, section, num):
     timeslot = input("Enter the timeslot for the reservation to be removed: ")
 
     if room_instance.remove_reser(day, timeslot):
+        #add the remove from file method here
         print("Reservation removed successfully!")
     else:
         print("No reservation found for the specified day and timeslot.")
 
 
-def modif_res(type, section, num):
-
-    room_instance = None
-    if type == 1:
-        # Amphi
-        room_instance = amphis[num - 1]
-    elif type == 2:
-        # Class
-        room_instance = salles[{'A': 0, 'B': 1, 'E': 2, 'F': 3}[section]][num - 1]
-
-    # Implement the modification logic based on your requirements
-    day = input("Enter the day for the reservation to be modified: ")
-    old_timeslot = input("Enter the old timeslot for the reservation: ")
-    new_timeslot = input("Enter the new timeslot for the reservation: ")
-
-    if room_instance.modify_reservation(day, old_timeslot, new_timeslot):
-        print("Reservation modified successfully!")
-    else:
-        print("Modification failed. The old timeslot might not be reserved or the new timeslot is already reserved.")
-
-
-# ... (remaining code)
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------#
-#                                                          DISPLAY METHODS
+#                                                          SAVING METHODS
 # ---------------------------------------------------------------------------------------------------------------------------------------#
-# ... (previous code)
 
 # ---------------------------------------------------------------------------------------------------------------------------------------#
 #                                                          DISPLAY METHODS

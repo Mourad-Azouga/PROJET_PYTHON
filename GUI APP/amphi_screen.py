@@ -154,8 +154,6 @@ class AmphiScreen(Screen):
     def amphi_button_press(self, instance, amphi_num):
         # Set amphi_number in AmphiFinal and transition to it
         amphi_number = amphi_num
-        screen_manager = self.manager
-
         amphi_final_screen = self.manager.get_screen('amphi_final')
         amphi_final_screen.set_amphi_number(amphi_number)
         transition = SlideTransition(direction='left')
@@ -174,7 +172,6 @@ class AmphiScreen(Screen):
 
     def quit_(self, instance):
         App.get_running_app().stop()
-    
     
 class AmphiFinal(Screen):
     def __init__(self, **kwargs):
@@ -219,19 +216,19 @@ class AmphiFinal(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
-        self.label = Label(text="", color=(1, 1, 1, 1))  # Create a label attribute
+        self.label = Label(text="", color=(0, 0, 0, 1))  # Create a label attribute
         main_layout.add_widget(self.label)
 
-        self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.layout = BoxLayout(orientation='vertical')  # Define the layout attribute
 
         main_layout.add_widget(header)
+        main_layout.add_widget(self.layout)  # Add the layout to the main layout
         self.add_widget(main_layout)
-
 
     def dismiss(self, instance):
         transition = SlideTransition(direction='right')
         self.manager.transition = transition
-        self.manager.current = 'main'
+        self.manager.current = 'amphi'
 
     def settings(self, instance):
         self.manager.current = 'settings'
@@ -241,9 +238,40 @@ class AmphiFinal(Screen):
 
     def set_amphi_number(self, amphi_number):
         self.amphi_number = amphi_number
-        print(self.amphi_number, amphi_number, "the true value is here")
         return self.amphi_number
 
     def on_enter(self):
-        
-        self.label.text = f"{self.set_amphi_number(self.amphi_number)}"
+        # Print the selected amphi number
+        self.label.text = f"Selected Amphi: {self.set_amphi_number(self.amphi_number)}"
+
+        # Define the empty timetable
+        emploi = {
+            'Lundi': ['', '', '', '', ''],
+            'Mardi': ['', '', '', '', ''],
+            'Mercredi': ['', '', '', '', ''],
+            'Jeudi': ['', '', '', '', ''],
+            'Vendredi': ['', '', '', '', ''],
+            'Samedi': ['', '', '', '', '']
+        }
+
+        # Create a GridLayout to contain the timetable
+        grid_layout = GridLayout(cols=len(emploi['Lundi']), spacing=5, size_hint_y=None)
+
+        # Set the height of the GridLayout based on the number of rows and spacing
+        grid_layout.bind(minimum_height=grid_layout.setter('height'))
+
+        # Add labels for days
+        for day in emploi.keys():
+            grid_layout.add_widget(Label(text=day, bold=True, size_hint_y=None, height=40, color=(0, 0, 0, 1)))
+
+        # Add labels for times and empty slots
+        for day, times in emploi.items():
+            for time in times:
+                cell_label = Label(text=str(time), halign='left', valign='top', markup=True, size_hint_y=None, height=40, color=(0, 0, 0, 1))
+                grid_layout.add_widget(cell_label)
+
+        # Add the GridLayout to the layout
+        self.layout.add_widget(grid_layout)
+
+        # Call the parent on_enter method
+        super(AmphiFinal, self).on_enter()

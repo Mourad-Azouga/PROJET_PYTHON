@@ -1,9 +1,6 @@
-from kivy.uix.button import Button
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.label import Label
-from kivy.uix.screenmanager import Screen, SlideTransition
-from kivy.app import App
-
+from header import *
+"""SalleScreen
+    The first screen that appears after selecting the salle in the main window, in this screen the user will select the section"""
 class SalleScreen(Screen):
     def __init__(self, **kwargs):
         super(SalleScreen, self).__init__(**kwargs)
@@ -106,13 +103,13 @@ class SalleScreen(Screen):
         self.add_widget(main_layout)
 
     def salle_button_press(self, instance, salle_name):
-        # Set salle_name in SalleFinal and transition to it
+        # Set salle_name in Salle_Sections and transition to it
         screen_manager = self.manager
-        salle_final_screen = self.manager.get_screen('salle_final')
-        salle_final_screen.set_salle_name(salle_name)
+        salle_final_screen = self.manager.get_screen('salle_sections')
+        salle_final_screen.set_salle_section(salle_name)
         transition = SlideTransition(direction='left')
         self.manager.transition = transition
-        self.manager.current = 'salle_final'
+        self.manager.current = 'salle_sections'
 
     def dismiss(self, instance):
         transition = SlideTransition(direction='right')
@@ -125,11 +122,12 @@ class SalleScreen(Screen):
     def quit_(self, instance):
         App.get_running_app().stop()
 
-class SalleFinal(Screen):
+
+"""SalleSections
+    The screen that appears after selecting Salle section, now we'll need to get the salle number from our user"""
+class SalleSections(Screen):
     def __init__(self, **kwargs):
-        super(SalleFinal, self).__init__(**kwargs)
-        self.set_salle_name('')
-        self.salle_name = ''
+        super(SalleSections, self).__init__(**kwargs)
 
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
 
@@ -168,13 +166,46 @@ class SalleFinal(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
-        self.label = Label(text="", color=(1, 1, 1, 1))  # Create a label attribute
-        main_layout.add_widget(self.label)
+        self.dropdown = DropDown()
+        for i in range(16):  # Numbers from 0 to 15
+            btn = Button(background_normal = 'dropdown_buttons.png',text=str(i), size_hint_y=None, size = (50,50))
+            btn.bind(on_release=lambda btn: self.on_dropdown_select(btn.text))
+            self.dropdown.add_widget(btn)
 
+        classroom_selector = Button(
+            background_normal = 'choisir_salle_button.png',
+            size_hint=(None, None),
+            size=(150, 50),
+            pos_hint={'x': 0, 'y': .8},
+        )
+        classroom_selector.bind(on_release=self.dropdown.open)
+        main_layout.add_widget(classroom_selector)
+
+        self.label = Label(text="", color=(0, 0, 0, 1)) 
+        main_layout.add_widget(self.label)
         main_layout.add_widget(header)
         self.add_widget(main_layout)
 
+#hado msalyin mayt2adawch
     def dismiss(self, instance):
         transition = SlideTransition(direction='right')
         self.manager.transition = transition
-        self.manager.current
+        self.manager.current = 'salle'
+
+    def settings(self, instance):
+        self.manager.current = 'settings'
+
+    def quit_(self, instance):
+        App.get_running_app().stop()
+
+    def set_salle_section(self, salle_section):
+        self.salle_section = salle_section
+        return self.salle_section
+
+    def on_enter(self):
+        self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)}"
+
+    def on_dropdown_select(self, value):
+        self.salle_section = int(value)
+        self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)}"
+        self.dropdown.select(value)

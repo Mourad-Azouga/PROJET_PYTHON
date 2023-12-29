@@ -1,9 +1,9 @@
 from header import *
 from amphi_screen import AmphiScreen, AmphiFinal
-from salle_screen import SalleScreen, SalleFinal
+from salle_screen import SalleScreen, SalleSections
 from settings import Settings
 
-Window.clearcolor = (146/255, 121/255, 167/255, 1)
+Window.clearcolor = (238/255, 238/255, 238/255, 1)
 Window.size = (1200,600)
 
 
@@ -42,7 +42,7 @@ class MainScreen(Screen):
         main_buttons = BoxLayout(
             orientation='horizontal',
             padding=(30, 30, 30, 30),
-            spacing=30
+            spacing=30,
         )
 
         amphi_button = Button(
@@ -94,7 +94,7 @@ class MainApp(App):
         salle_screen = SalleScreen(name='salle')
         settings = Settings(name='settings')
         amphi_final = AmphiFinal(name='amphi_final')
-        salle_final = SalleFinal(name='salle_final')
+        salle_sections = SalleSections(name='salle_sections')
 
 
 
@@ -103,7 +103,7 @@ class MainApp(App):
         screen_manager.add_widget(salle_screen)
         screen_manager.add_widget(settings)
         screen_manager.add_widget(amphi_final)
-        screen_manager.add_widget(salle_final)
+        screen_manager.add_widget(salle_sections)
 
         return screen_manager
 
