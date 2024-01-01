@@ -51,13 +51,6 @@ salles = [salle_A_nums, salle_B_nums, salle_E_nums, salle_F_nums]
 # ---------------------------------------------------------------------------------------------------------------------------------------#
 #                                                           RESERVATION METHODS
 # ---------------------------------------------------------------------------------------------------------------------------------------#
-# ... (previous code)
-
-# ---------------------------------------------------------------------------------------------------------------------------------------#
-#                                                           RESERVATION METHODS
-# ---------------------------------------------------------------------------------------------------------------------------------------#
-
-# ... (existing code)
 
 def make_res(type, section, num):
     """Make a reservation and add it to the system"""
@@ -74,7 +67,6 @@ def make_res(type, section, num):
         return
 
     # Display the current timetable
-    display_timetable(type, section, num)
 
     # Get user input for day and timeslot
     day = input("Enter the day of the reservation: ")
@@ -96,10 +88,6 @@ def make_res(type, section, num):
             f"You have reserved {room_instance.name} ({'Amphi' if type == 1 else 'Salle'} {section}{num}) on {day} at {timeslot}.")
     else:
         print("Reservation failed. The slot is already reserved.")
-
-
-# ... (existing code)
-
 
 def remove_res(type, section, num):
 
@@ -130,62 +118,42 @@ def modif_res(type, section, num):
     elif type == 2:
         # Class
         room_instance = salles[{'A': 0, 'B': 1, 'E': 2, 'F': 3}[section]][num - 1]
-
-    # Implement the modification logic based on your requirements
-    day = input("Enter the day for the reservation to be modified: ")
-    old_timeslot = input("Enter the old timeslot for the reservation: ")
-    new_timeslot = input("Enter the new timeslot for the reservation: ")
-
-    if room_instance.modify_reservation(day, old_timeslot, new_timeslot):
-        print("Reservation modified successfully!")
     else:
-        print("Modification failed. The old timeslot might not be reserved or the new timeslot is already reserved.")
+        print("Invalid room type")
+        return
+
+    day = input("Enter the current day of the reservation: ")
+    timeslot = input("Enter the current tiameslot of the reservation: ")
+
+    # Check if the reservation exists
+    if day not in emploi or timeslot not in [slot[0] for slot in emploi[day]]:
+        print("Invalid day or timeslot. Please enter a valid day and timeslot.")
+        return
 
 
-# ... (remaining code)
+    # Get user input for the new day and timeslot
+    new_day = input("Enter the new day of the reservation: ")
+    new_timeslot = input("Enter the new timeslot of the reservation: ")
 
+    # Check if the new day and timeslot are valid
+    if new_day not in emploi or new_timeslot not in [slot[0] for slot in emploi[new_day]]:
+        print("Invalid day or timeslot. Please enter a valid day and timeslot.")
+        return
 
-# ---------------------------------------------------------------------------------------------------------------------------------------#
-#                                                          DISPLAY METHODS
-# ---------------------------------------------------------------------------------------------------------------------------------------#
-# ... (previous code)
+    # Attempt to modify the reservation
+    success = room_instance.modify_reservation(day, timeslot, new_day, new_timeslot)
 
-# ---------------------------------------------------------------------------------------------------------------------------------------#
-#                                                          DISPLAY METHODS
-# ---------------------------------------------------------------------------------------------------------------------------------------#
-def display_timetable(type, section, num):
-
-    room_instance = None
-    if type == 1:
-        # Amphi
-        room_instance = amphis[num - 1]
-    elif type == 2:
-        # Class
-        room_instance = salles[{'A': 0, 'B': 1, 'E': 2, 'F': 3}[section]][num - 1]
-
-    print(f"Timetable for {room_instance.name} ({'Amphi' if type == 1 else 'Salle'} {section}{num}):")
-
-    headers = ["Jours"] + [f"{slot[0]} - {slot[1]}" for slot in room_instance.emploi['Lundi']]
-    table_data = [(day, *[room_instance.reservations[day].get(slot, "") for slot in room_instance.emploi[day]]) for day
-                  in room_instance.emploi]
-
-    print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
-
-    # ... (remaining code)
-"""
-    # NB - Not done yet
-    first_day_slots = emploi['Lundi']
-    timetable = {day: [""] * len(first_day_slots) for day in emploi}
-    headers = ["Jours"] + [f"{slot}" for slot in first_day_slots]
-    table_data = [(day, *slots) for day, slots in timetable.items()]
-    print(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))"""
-
+    if success:
+        print("Reservation modified successfully!")
+        print(
+            f"The reservation has been moved from {day} at {timeslot} to {new_day} at {new_timeslot}.")
+    else:
+        print("Reservation modification failed. The new slot is already reserved.")
 
 # ---------------------------------------------------------------------------------------------------------------------------------------#
 #                                                          NAVIGATION METHODS
 # ---------------------------------------------------------------------------------------------------------------------------------------#
 
-# ... (previous code)
 
 def navigator_amphi():
     """The first base for the amphis, where we'll have the menu"""
@@ -196,7 +164,12 @@ def navigator_amphi():
         print("Erreur de saisie!")
         return
     print("Vous avez choisi amphi {}\nL'emploi du temps present de cet amphi:\n".format(amphi_numero))
-    display_timetable(type, 0, amphi_numero)
+    # Create the amphi instance
+    amphi_instance = amphis[amphi_numero - 1]
+
+    # Display the timetable using the class method
+    amphi_instance.display_timetable()
+
     choix = int(input(
         "Menu:\n___\n(1) Faire une reservation\n(2) Annule une reservation\n(3) Modifier une reservation \n(4) Retour au menu principal\n"))
     if choix == 1:
@@ -229,7 +202,11 @@ def navigator_salles():
     print(
         "Vous avez choisi la salle {}{}\nL'emploi du temps present de cet amphi:\n".format(salle_section, salle_numero))
 
-    display_timetable(type, salle_section, salle_numero)
+    # Create the salle instance
+    salle_instance = salles[{'A': 0, 'B': 1, 'E': 2, 'F': 3}[salle_section]][salle_numero - 1]
+
+    # Display the timetable using the class method
+    salle_instance.display_timetable()
     choix = int(input(
         "Menu:\n___\n(1) Faire une reservation\n(2) Annule une reservation\n(3) Modifier une reservation \n(4) Retour au menu principal\n"))
     if choix == 1:
@@ -244,9 +221,6 @@ def navigator_salles():
     else:
         print("Erreur saisir!\n")
         return
-
-# ... (remaining code)
-
 
 
 if __name__ == '__main__':

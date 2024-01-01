@@ -2,25 +2,37 @@
 ### 05/12/2023
 -Created the startup files, downloaded kivy to start the work (Mourad Azouga)
 -Made classes for the rooms and the timeslots
+
 ### 06/12/2023:
 -Destroyed everything
 -Remade the entire thing, added classes, dictionaries and tabulate for the basic version -M
 -Made a GUI version with Kivy app, still in pre beta making -M
 -Made the git repo and shared it with the team -M
+
 ### 07/12/2023:
 -THE GOOD STUFF! Made fully (kindof) working main GUI page with Amphi stuff and added pictures and everything -M
 -Added 4 new files header.py, salle_screen.py, settings.py and amphi_screen.py -M
 -Changed resolution to 1200-600, idk if it the ideal one or not -M
+
 ### 08/12/2023
 -Added some stuff and fixed the none working (I hate it) scroll stuff in amphi, we now support all resolutions! -M
+
 ### 20/12/2023:
 -Created the backbone and the structure for the basic APP main and header.py -M
 -Fixed the class and made the methods to be added to the main -M
 -Added data.txt where we'll store the data so that it doesn't get thrown once we close the app -M
+
 ### 28/12/2023:
 -Forgot to add stuff, my bad but I added all the buttons for Amphi and Salle sections, they return a value to the final interface where the user
 will have the timetable and stuff
+
 ### 29/12/2023
 -Changed the background color and images
 -Added workings beautiful buttons for the classroom numbers
 -Made or attempted to make at least, the timetable
+
+### 31/12/2023:
+-Added the room class and appropriate instances into the kivy app header
+
+### 01/01/2024:
+-Added time tables to all the stuff, now we only have left the reservation stuff

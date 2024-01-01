@@ -166,7 +166,8 @@ class SalleSections(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
-        self.dropdown = DropDown()
+
+        self.dropdown = DropDown(size_hint=(None, .1))
         for i in range(16):  # Numbers from 0 to 15
             btn = Button(background_normal = 'dropdown_buttons.png',text=str(i), size_hint_y=None, size = (50,50))
             btn.bind(on_release=lambda btn: self.on_dropdown_select(btn.text))
@@ -181,10 +182,28 @@ class SalleSections(Screen):
         classroom_selector.bind(on_release=self.dropdown.open)
         main_layout.add_widget(classroom_selector)
 
-        self.label = Label(text="", color=(0, 0, 0, 1)) 
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .01)) 
         main_layout.add_widget(self.label)
-        main_layout.add_widget(header)
+        self.label2 = Label(text="", color=(0, 0, 0, 1), size_hint=(.2, 0.01), pos_hint={'x': .1, 'y': 1})
+        main_layout.add_widget(self.label2)
+
+        timetable_layout = GridLayout(cols=6, rows=7, spacing=0, size_hint=(.8, None), pos_hint={'x':.1, 'y':.1})
+        timetable_layout.add_widget(Button(text=""))
+        for timeslot in emploi[list(emploi.keys())[0]]:
+            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=40)
+            timetable_layout.add_widget(time_button)
+        for day in emploi.keys():
+            day_button = Button(text=day, size_hint_y=None, height=40)
+            timetable_layout.add_widget(day_button)
+            for timeslot in emploi[day]:
+                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=40)
+                cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot[0]: self.on_click(instance, day, timeslot))
+                timetable_layout.add_widget(cell_button)
+
+        main_layout.add_widget(timetable_layout)
+
         self.add_widget(main_layout)
+        main_layout.add_widget(header)
 
 #hado msalyin mayt2adawch
     def dismiss(self, instance):
@@ -209,3 +228,6 @@ class SalleSections(Screen):
         self.salle_section = int(value)
         self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)}"
         self.dropdown.select(value)
+
+    def on_click(self, instance,day ,timeslot):
+        self.label2.text = f"Selected timeslot: {day}, {timeslot}"

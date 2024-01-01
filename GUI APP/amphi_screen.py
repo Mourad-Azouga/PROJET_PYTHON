@@ -216,14 +216,34 @@ class AmphiFinal(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
-        self.label = Label(text="", color=(0, 0, 0, 1))  # Create a label attribute
+
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .2))  # Create a label attribute
         main_layout.add_widget(self.label)
+        
+        timetable_layout = GridLayout(cols=6, rows=7, spacing=0, size_hint=(.8, None), pos_hint={'x':.1, 'y':.1})
+        timetable_layout.add_widget(Button(text=""))
+
+        for timeslot in emploi[list(emploi.keys())[0]]:
+            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=40)
+            timetable_layout.add_widget(time_button)
+
+        for day in emploi.keys():
+            day_button = Button(text=day, size_hint_y=None, height=40)
+            timetable_layout.add_widget(day_button)
+            for timeslot in emploi[day]:
+                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=40)
+                cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot[0]: self.on_click(instance, day, timeslot))
+                timetable_layout.add_widget(cell_button)
+
+        main_layout.add_widget(timetable_layout)
 
         self.layout = BoxLayout(orientation='vertical')  # Define the layout attribute
-
-        main_layout.add_widget(header)
         main_layout.add_widget(self.layout)  # Add the layout to the main layout
+        self.label2 = Label(text="", color=(0, 0, 0, 1))  # Create a label attribute
+        main_layout.add_widget(self.label2)
         self.add_widget(main_layout)
+        main_layout.add_widget(header)
+
 
     def dismiss(self, instance):
         transition = SlideTransition(direction='right')
@@ -239,39 +259,10 @@ class AmphiFinal(Screen):
     def set_amphi_number(self, amphi_number):
         self.amphi_number = amphi_number
         return self.amphi_number
+    
+    def on_click(self, instance,day ,timeslot):
+        self.label2.text = f"Selected timeslot: {day}, {timeslot}"
 
     def on_enter(self):
-        # Print the selected amphi number
         self.label.text = f"Selected Amphi: {self.set_amphi_number(self.amphi_number)}"
-
-        # Define the empty timetable
-        emploi = {
-            'Lundi': ['', '', '', '', ''],
-            'Mardi': ['', '', '', '', ''],
-            'Mercredi': ['', '', '', '', ''],
-            'Jeudi': ['', '', '', '', ''],
-            'Vendredi': ['', '', '', '', ''],
-            'Samedi': ['', '', '', '', '']
-        }
-
-        # Create a GridLayout to contain the timetable
-        grid_layout = GridLayout(cols=len(emploi['Lundi']), spacing=5, size_hint_y=None)
-
-        # Set the height of the GridLayout based on the number of rows and spacing
-        grid_layout.bind(minimum_height=grid_layout.setter('height'))
-
-        # Add labels for days
-        for day in emploi.keys():
-            grid_layout.add_widget(Label(text=day, bold=True, size_hint_y=None, height=40, color=(0, 0, 0, 1)))
-
-        # Add labels for times and empty slots
-        for day, times in emploi.items():
-            for time in times:
-                cell_label = Label(text=str(time), halign='left', valign='top', markup=True, size_hint_y=None, height=40, color=(0, 0, 0, 1))
-                grid_layout.add_widget(cell_label)
-
-        # Add the GridLayout to the layout
-        self.layout.add_widget(grid_layout)
-
-        # Call the parent on_enter method
         super(AmphiFinal, self).on_enter()
