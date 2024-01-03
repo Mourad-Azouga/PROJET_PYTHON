@@ -1,2 +1,4 @@
 -Add the methods to save and load data from data.txt
 -Create the methods to make, remove, modify and display reservations properly
+-Remove the blue flashy thing when we click the button in to choose salle number
+-change location of label of salle emploi to the buttomn

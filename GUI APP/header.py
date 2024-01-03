@@ -98,23 +98,6 @@ class room():
             return True
         return False
 
-    def display_timetable(self):
-        """Displays the timetable using tabulate.
-        Args:
-            self - to access the instance (aka the class or amphi)
-        """
-        headers = ["Jours"] + [f"{slot[0]} - {slot[1]}" for slot in self.emploi['Lundi']]
-        
-        # Iterate through the days and timeslots, checking if a reservation exists
-        table_data = []
-        for day in self.emploi:
-            row_data = [day]
-            for slot in self.emploi[day]:
-                reservation_status = self.reservations[day].get(slot[0], "")
-                row_data.append(reservation_status)
-            table_data.append(row_data)
-
-        return(tabulate(table_data, headers=headers, tablefmt="fancy_grid"))
 
 #wa9ila anhtajo ndiro les instances kamlin hna
 materiaux = "Datashow;Micro"
