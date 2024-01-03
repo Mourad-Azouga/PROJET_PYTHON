@@ -36,3 +36,6 @@ will have the timetable and stuff
 
 ### 01/01/2024:
 -Added time tables to all the stuff, now we only have left the reservation stuff
+
+### 03/01/2024:
+-Added calendar, added reservation, modification and annulation buttons (Still not working) 

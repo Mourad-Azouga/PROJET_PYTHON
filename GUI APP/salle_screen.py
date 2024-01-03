@@ -128,9 +128,8 @@ class SalleScreen(Screen):
 class SalleSections(Screen):
     def __init__(self, **kwargs):
         super(SalleSections, self).__init__(**kwargs)
-
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
-
+        self.salle_section_number = 0
         header = BoxLayout(orientation='vertical', size_hint=(None, .1))
 
         quit_ = Button(
@@ -183,12 +182,10 @@ class SalleSections(Screen):
         classroom_selector.bind(on_release=self.dropdown.open)
         main_layout.add_widget(classroom_selector)
 
-        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .01)) 
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01),) 
         main_layout.add_widget(self.label)
-        self.label2 = Label(text="", color=(0, 0, 0, 1), size_hint=(.2, 0.01), pos_hint={'x': .1, 'y': 1})
-        main_layout.add_widget(self.label2)
 
-        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':0, 'y':.6}, size_hint= (.2,.2))  # Create a label attribute
+        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':-.01, 'y':.6}, size_hint= (.2,.2),font_size=25)
         self.add_widget(self.calendar)
 
         timetable_layout = GridLayout(cols=7, rows=6, spacing=0, size_hint=(.8, None), pos_hint={'x':.17, 'y':.30})
@@ -208,8 +205,7 @@ class SalleSections(Screen):
                 timetable_layout.add_widget(cell_button)
 
         main_layout.add_widget(timetable_layout)
-
-        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10, size_hint = (.1, .3), pos_hint = {'x':.85, 'y':.05})
+        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10, size_hint = (.1, .2), pos_hint = {'x':.85, 'y':0.05})
         self.button_layout.add_widget(Button(text = 'Placer reservation'))
         self.button_layout.add_widget(Button(text = 'Modifier reservation'))
         self.button_layout.add_widget(Button(text = 'Annuler reservation'))
@@ -235,18 +231,22 @@ class SalleSections(Screen):
     def set_salle_section(self, salle_section):
         self.salle_section = salle_section
         return self.salle_section
+    
+    def set_salle_section_number(self, salle_section_number):
+        self.salle_section_number = salle_section_number
+        return self.salle_section_number
 
     def on_enter(self):
-        self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)}"
+        self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)} {self.set_salle_section_number(self.salle_section_number)}"
         cal = calendar.TextCalendar()
         self.calendar.text = cal.formatmonth(2024, 1)
 
     def on_dropdown_select(self, value):
-        self.salle_section = int(value)
-        self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)}"
+        self.salle_section_number = int(value)
+        self.label.text = f"Selected Classroom: {self.set_salle_section_number(self.salle_section_number)}"
         self.dropdown.select(value)
 
     def on_click(self, instance,day ,timeslot):
         self.button_layout.opacity = 1
         self.button_layout.disabled = False
-        self.label2.text = f"Selected test test: {day}, {timeslot}"
+        self.label.text =  f"Selected timeslot: {day}, {timeslot} in {self.set_salle_section(self.salle_section)} at {self.set_salle_section_number(self.salle_section_number)}"
