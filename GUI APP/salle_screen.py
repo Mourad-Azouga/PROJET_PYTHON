@@ -169,15 +169,16 @@ class SalleSections(Screen):
 
         self.dropdown = DropDown(size_hint=(None, .1))
         for i in range(16):  # Numbers from 0 to 15
-            btn = Button(background_normal = 'dropdown_buttons.png',text=str(i), size_hint_y=None, size = (50,50))
+            btn = Button(background_normal = 'dropdown_buttons.png',background_down = 'dropdown_buttons.png',text=str(i), size_hint_y=None, size = (50,50))
             btn.bind(on_release=lambda btn: self.on_dropdown_select(btn.text))
             self.dropdown.add_widget(btn)
 
         classroom_selector = Button(
             background_normal = 'choisir_salle_button.png',
+            background_down = 'choisir_salle_button.png',
             size_hint=(None, None),
             size=(150, 50),
-            pos_hint={'x': 0, 'y': .8},
+            pos_hint={'x': 0, 'y': .7},
         )
         classroom_selector.bind(on_release=self.dropdown.open)
         main_layout.add_widget(classroom_selector)
@@ -187,20 +188,34 @@ class SalleSections(Screen):
         self.label2 = Label(text="", color=(0, 0, 0, 1), size_hint=(.2, 0.01), pos_hint={'x': .1, 'y': 1})
         main_layout.add_widget(self.label2)
 
-        timetable_layout = GridLayout(cols=6, rows=7, spacing=0, size_hint=(.8, None), pos_hint={'x':.1, 'y':.1})
+        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':0, 'y':.6}, size_hint= (.2,.2))  # Create a label attribute
+        self.add_widget(self.calendar)
+
+        timetable_layout = GridLayout(cols=7, rows=6, spacing=0, size_hint=(.8, None), pos_hint={'x':.17, 'y':.30})
         timetable_layout.add_widget(Button(text=""))
-        for timeslot in emploi[list(emploi.keys())[0]]:
-            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=40)
-            timetable_layout.add_widget(time_button)
+
         for day in emploi.keys():
-            day_button = Button(text=day, size_hint_y=None, height=40)
+            day_button = Button(text=day, size_hint_y=None, height=90)
             timetable_layout.add_widget(day_button)
-            for timeslot in emploi[day]:
-                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=40)
+
+        for timeslot in emploi[list(emploi.keys())[0]]:
+            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=90)
+            timetable_layout.add_widget(time_button)
+
+            for day in emploi.keys():
+                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=90, background_color=(0, 0, 0, 0.1), background_down = '1.png', color = (0,0,0,1))
                 cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot[0]: self.on_click(instance, day, timeslot))
                 timetable_layout.add_widget(cell_button)
 
         main_layout.add_widget(timetable_layout)
+
+        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10, size_hint = (.1, .3), pos_hint = {'x':.85, 'y':.05})
+        self.button_layout.add_widget(Button(text = 'Placer reservation'))
+        self.button_layout.add_widget(Button(text = 'Modifier reservation'))
+        self.button_layout.add_widget(Button(text = 'Annuler reservation'))
+        self.button_layout.opacity = 0
+        self.button_layout.disabled = True 
+        self.add_widget(self.button_layout)
 
         self.add_widget(main_layout)
         main_layout.add_widget(header)
@@ -223,6 +238,8 @@ class SalleSections(Screen):
 
     def on_enter(self):
         self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)}"
+        cal = calendar.TextCalendar()
+        self.calendar.text = cal.formatmonth(2024, 1)
 
     def on_dropdown_select(self, value):
         self.salle_section = int(value)
@@ -230,4 +247,6 @@ class SalleSections(Screen):
         self.dropdown.select(value)
 
     def on_click(self, instance,day ,timeslot):
-        self.label2.text = f"Selected timeslot: {day}, {timeslot}"
+        self.button_layout.opacity = 1
+        self.button_layout.disabled = False
+        self.label2.text = f"Selected test test: {day}, {timeslot}"

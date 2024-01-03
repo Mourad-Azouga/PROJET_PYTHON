@@ -13,7 +13,7 @@ from kivy.app import App
 from kivy.graphics import Color, Rectangle
 from kivy.uix.spinner import Spinner
 from kivy.uix.dropdown import DropDown
-from tabulate import tabulate #not sure if we'll use it or not
+import calendar
 
 
 #Tabulate imports
@@ -100,6 +100,7 @@ class room():
 
 
 #wa9ila anhtajo ndiro les instances kamlin hna
+#Makandench ghadi nkheli materiaux (NEEDS WORK !! ATTENTION)
 materiaux = "Datashow;Micro"
 # 3amar les objects salles w amphis
 amphi1 = room(1, 1, "Amphi1", emploi, materiaux, 115)

@@ -219,28 +219,42 @@ class AmphiFinal(Screen):
 
         self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .2))  # Create a label attribute
         main_layout.add_widget(self.label)
-        
-        timetable_layout = GridLayout(cols=6, rows=7, spacing=0, size_hint=(.8, None), pos_hint={'x':.1, 'y':.1})
+        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':0, 'y':.6}, size_hint= (.2,.2))  # Create a label attribute
+        self.add_widget(self.calendar)
+
+        timetable_layout = GridLayout(cols=7, rows=6, spacing=0, size_hint=(.8, None), pos_hint={'x':.17, 'y':.15})
         timetable_layout.add_widget(Button(text=""))
 
+        for day in emploi.keys():
+            day_button = Button(text=day, size_hint_y=None, height=90)
+            timetable_layout.add_widget(day_button)
+
         for timeslot in emploi[list(emploi.keys())[0]]:
-            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=40)
+            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=90)
             timetable_layout.add_widget(time_button)
 
-        for day in emploi.keys():
-            day_button = Button(text=day, size_hint_y=None, height=40)
-            timetable_layout.add_widget(day_button)
-            for timeslot in emploi[day]:
-                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=40)
+            # Populate the rest of the row with cell buttons
+            for day in emploi.keys():
+                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=90, background_color=(0, 0, 0, 0.1), background_down = '1.png', color = (0,0,0,1))
                 cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot[0]: self.on_click(instance, day, timeslot))
                 timetable_layout.add_widget(cell_button)
 
         main_layout.add_widget(timetable_layout)
 
-        self.layout = BoxLayout(orientation='vertical')  # Define the layout attribute
-        main_layout.add_widget(self.layout)  # Add the layout to the main layout
-        self.label2 = Label(text="", color=(0, 0, 0, 1))  # Create a label attribute
+        self.layout = BoxLayout(orientation='vertical')
+        main_layout.add_widget(self.layout)
+
+        self.label2 = Label(text="", color=(0, 0, 0, 1))
         main_layout.add_widget(self.label2)
+
+        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10, size_hint = (.1, .6), pos_hint = {'x':.85, 'y':.2})
+        self.button_layout.add_widget(Button(text = 'Placer reservation'))
+        self.button_layout.add_widget(Button(text = 'Modifier reservation'))
+        self.button_layout.add_widget(Button(text = 'Annuler reservation'))
+        self.button_layout.opacity = 0
+        self.button_layout.disabled = True 
+        main_layout.add_widget(self.button_layout)
+
         self.add_widget(main_layout)
         main_layout.add_widget(header)
 
@@ -261,8 +275,16 @@ class AmphiFinal(Screen):
         return self.amphi_number
     
     def on_click(self, instance,day ,timeslot):
+        self.button_layout.opacity = 1
+        self.button_layout.disabled = False
         self.label2.text = f"Selected timeslot: {day}, {timeslot}"
+    
+  
 
     def on_enter(self):
         self.label.text = f"Selected Amphi: {self.set_amphi_number(self.amphi_number)}"
+        cal = calendar.TextCalendar()
+        self.calendar.text = cal.formatmonth(2024, 1)
         super(AmphiFinal, self).on_enter()
+
+
