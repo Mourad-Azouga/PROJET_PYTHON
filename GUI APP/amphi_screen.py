@@ -217,9 +217,9 @@ class AmphiFinal(Screen):
         header.add_widget(settings)
         header.add_widget(quit_)
 
-        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .2))  # Create a label attribute
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .2))
         main_layout.add_widget(self.label)
-        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':0, 'y':.6}, size_hint= (.2,.2))  # Create a label attribute
+        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':0, 'y':.6}, size_hint= (.2,.2), font_size = 25)
         self.add_widget(self.calendar)
 
         timetable_layout = GridLayout(cols=7, rows=6, spacing=0, size_hint=(.8, None), pos_hint={'x':.17, 'y':.15})
