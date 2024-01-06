@@ -14,6 +14,8 @@ from kivy.graphics import Color, Rectangle
 from kivy.uix.spinner import Spinner
 from kivy.uix.dropdown import DropDown
 import calendar
+from kivy.graphics import Rectangle, Color
+from kivy.uix.textinput import TextInput
 
 
 #Tabulate imports

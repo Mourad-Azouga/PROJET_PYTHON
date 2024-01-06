@@ -39,3 +39,12 @@ will have the timetable and stuff
 
 ### 03/01/2024:
 -Added calendar, added reservation, modification and annulation buttons (Still not working) 
+
+### 06/01/2024:
+-Major update:
+    .Changed backgrounds for the main window, the timetable the buttons.
+    .Made the input
+    .Removed Calendar and labels for now
+    .Added the buttons and made the buttons and the label disappear on_leave
+    .Added images to the repo, they're necessary.
+I'm guessing this will be it on the front end, now we'll focus on making all of this work.

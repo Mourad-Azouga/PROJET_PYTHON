@@ -10,11 +10,12 @@ Window.size = (1200,600)
 class MainScreen(Screen):
     def __init__(self, **kwargs):
         super(MainScreen, self).__init__(**kwargs)
+        header_background = Image(source='back.png', allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
+        self.add_widget(header_background)
+    
         main_layout = BoxLayout(orientation='vertical')
 
         header = RelativeLayout()
-        header_background = Image(source='back.png', allow_stretch=True, keep_ratio=False, size_hint=(1, 1))
-        header.add_widget(header_background)
 
         quit_ = Button(
             background_normal='3.png',
@@ -41,8 +42,9 @@ class MainScreen(Screen):
         #main buttons
         main_buttons = BoxLayout(
             orientation='horizontal',
-            padding=(30, 30, 30, 30),
+            padding=(30, 30, 30, 100),
             spacing=30,
+
         )
 
         amphi_button = Button(

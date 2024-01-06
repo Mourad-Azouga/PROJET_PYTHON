@@ -4,6 +4,8 @@ from header import *
 class SalleScreen(Screen):
     def __init__(self, **kwargs):
         super(SalleScreen, self).__init__(**kwargs)
+        background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
+        self.add_widget(background_image)
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
         header = BoxLayout(orientation='vertical', size_hint=(None, .1))
 
@@ -128,6 +130,8 @@ class SalleScreen(Screen):
 class SalleSections(Screen):
     def __init__(self, **kwargs):
         super(SalleSections, self).__init__(**kwargs)
+        background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
+        self.add_widget(background_image)
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
         self.salle_section_number = 0
         header = BoxLayout(orientation='vertical', size_hint=(None, .1))
@@ -168,7 +172,7 @@ class SalleSections(Screen):
 
         self.dropdown = DropDown(size_hint=(None, .1))
         for i in range(16):  # Numbers from 0 to 15
-            btn = Button(background_normal = 'dropdown_buttons.png',background_down = 'dropdown_buttons.png',text=str(i), size_hint_y=None, size = (50,50))
+            btn = Button(background_normal = 'dropdown_buttons.png',background_down = 'dropdown_buttons.png',text=str(i), size_hint_y=None, size = (100,33))
             btn.bind(on_release=lambda btn: self.on_dropdown_select(btn.text))
             self.dropdown.add_widget(btn)
 
@@ -182,38 +186,111 @@ class SalleSections(Screen):
         classroom_selector.bind(on_release=self.dropdown.open)
         main_layout.add_widget(classroom_selector)
 
-        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01),) 
-        main_layout.add_widget(self.label)
-
-        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':-.01, 'y':.6}, size_hint= (.2,.2),font_size=25)
-        self.add_widget(self.calendar)
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01), pos_hint={'x':.17, 'y':0}) 
 
         timetable_layout = GridLayout(cols=7, rows=6, spacing=0, size_hint=(.8, None), pos_hint={'x':.17, 'y':.30})
-        timetable_layout.add_widget(Button(text=""))
+        timetable_layout.add_widget(Button(text="", background_color =(0,0,0,0)))
 
         for day in emploi.keys():
-            day_button = Button(text=day, size_hint_y=None, height=90)
-            timetable_layout.add_widget(day_button)
+            day_button = Button(text=day, size_hint_y=None, height=90, background_normal = 'ppll.png', background_down = 'ppll.png', color = (0,0,0,1), font_size = 25)
+            timetable_layout.add_widget(day_button) 
 
         for timeslot in emploi[list(emploi.keys())[0]]:
-            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=90)
+            time_button = Button(text=f"{timeslot[0]}\n{timeslot[1]}", size_hint_y=None, height=90, background_down = 'ppll.png', background_normal = 'ppll.png', color = (0,0,0,1), font_size = 25)
             timetable_layout.add_widget(time_button)
 
             for day in emploi.keys():
-                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=90, background_color=(0, 0, 0, 0.1), background_down = '1.png', color = (0,0,0,1))
+                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=90, background_normal = 'lolo.png', color = (0,0,0,1))
                 cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot[0]: self.on_click(instance, day, timeslot))
                 timetable_layout.add_widget(cell_button)
 
         main_layout.add_widget(timetable_layout)
-        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10, size_hint = (.1, .2), pos_hint = {'x':.85, 'y':0.05})
-        self.button_layout.add_widget(Button(text = 'Placer reservation'))
-        self.button_layout.add_widget(Button(text = 'Modifier reservation'))
-        self.button_layout.add_widget(Button(text = 'Annuler reservation'))
+
+        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10,size_hint = (.3,.3), pos_hint = {'x':.9, 'y':0})
+        self.button_layout.add_widget(Button(
+            background_normal = 'placer.png',
+            background_down = 'placer.png',
+            size_hint=(None, None),
+            size=(150, 50),
+        ))
+        self.button_layout.add_widget(Button(
+            background_normal = 'modifier.png',
+            background_down = 'modifier.png',
+            size_hint=(None, None),
+            size=(150, 50),
+        ))
+        self.button_layout.add_widget(Button(
+            background_normal = 'supprimer.png',
+            background_down = 'supprimer.png',
+            size_hint=(None, None),
+            size=(150, 50),
+        ))
+
         self.button_layout.opacity = 0
         self.button_layout.disabled = True 
         self.add_widget(self.button_layout)
+        self.input_layout = GridLayout(cols=2, rows=5, spacing=(10, 10), size_hint=(.4, .2), pos_hint={'x': .17, 'y': 0.1})
 
+        # Ster lwl : nom.prenom
+        self.label1 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Nom et Prenom",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label1)
+        self.input_field1 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field1)
+
+        # Ster tani: Code
+        self.label2 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Code Utilisateur",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label2)
+        self.input_field2 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field2)
+
+        # Ster talet: Profession
+        self.label3 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Profession",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label3)
+        self.input_field3 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field3)
+
+        # Ster rab3: Module
+        self.label4 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Module",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label4)
+        self.input_field4 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field4)
+        # Ster khames: Demandes
+        self.label5 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Demandes",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label5)
+        self.input_field5 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.opacity = 0
+        self.input_layout.disabled = True 
+        self.input_layout.add_widget(self.input_field5)
+
+        self.add_widget(self.input_layout)
         self.add_widget(main_layout)
+        main_layout.add_widget(self.label)
+
         main_layout.add_widget(header)
 
 #hado msalyin mayt2adawch
@@ -238,8 +315,6 @@ class SalleSections(Screen):
 
     def on_enter(self):
         self.label.text = f"Selected Classroom: {self.set_salle_section(self.salle_section)} {self.set_salle_section_number(self.salle_section_number)}"
-        cal = calendar.TextCalendar()
-        self.calendar.text = cal.formatmonth(2024, 1)
 
     def on_dropdown_select(self, value):
         self.salle_section_number = int(value)
@@ -249,4 +324,14 @@ class SalleSections(Screen):
     def on_click(self, instance,day ,timeslot):
         self.button_layout.opacity = 1
         self.button_layout.disabled = False
+        self.input_layout.opacity = 1
+        self.input_layout.disabled = False
         self.label.text =  f"Selected timeslot: {day}, {timeslot} in {self.set_salle_section(self.salle_section)} at {self.set_salle_section_number(self.salle_section_number)}"
+    
+    def on_leave(self):
+        # Hide buttons or perform actions when leaving the screen
+        self.button_layout.opacity = 0
+        self.button_layout.disabled = True
+        self.input_layout.opacity = 0
+        self.input_layout.disabled = True
+        super(SalleSections, self).on_leave()

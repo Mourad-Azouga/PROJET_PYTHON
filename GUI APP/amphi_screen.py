@@ -5,6 +5,8 @@ from kivy.app import App
 class AmphiScreen(Screen):
     def __init__(self, **kwargs):
         super(AmphiScreen, self).__init__(**kwargs)
+        background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
+        self.add_widget(background_image)
         main_layout = BoxLayout(orientation='vertical', size_hint =(1,1),pos_hint={'center_x': 0.5, 'center_y': 0.5})
         #header how l "div" li 3amlin fih les buttons dial shutdown w dakchi
         header = BoxLayout(orientation='vertical', size_hint=(None, .1))
@@ -176,9 +178,10 @@ class AmphiScreen(Screen):
 class AmphiFinal(Screen):
     def __init__(self, **kwargs):
         super(AmphiFinal, self).__init__(**kwargs)
+        background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
+        self.add_widget(background_image)
         self.set_amphi_number(0)
         self.amphi_number = 0
-
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
 
         header = BoxLayout(orientation='vertical', size_hint=(None, .1))
@@ -216,26 +219,26 @@ class AmphiFinal(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
+        #hadi gher bach nhabt timetable b .1
+        self.pusher = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .1))
+        main_layout.add_widget(self.pusher)
+  
+  
 
-        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .2))
-        main_layout.add_widget(self.label)
-        self.calendar = Label(text="", color=(0, 0, 0, 1), pos_hint={'x':0, 'y':.6}, size_hint= (.2,.2), font_size = 25)
-        self.add_widget(self.calendar)
-
-        timetable_layout = GridLayout(cols=7, rows=6, spacing=0, size_hint=(.8, None), pos_hint={'x':.17, 'y':.15})
-        timetable_layout.add_widget(Button(text=""))
+        timetable_layout = GridLayout(cols=7, rows=6, spacing=5, size_hint=(.8, None), pos_hint={'x':.17, 'y':1})
+        timetable_layout.add_widget(Button(text="", background_color = (0,0,0,0)))
 
         for day in emploi.keys():
-            day_button = Button(text=day, size_hint_y=None, height=90)
+            day_button = Button(text=day, size_hint_y=None, height=90, background_down = 'ppll.png', background_normal = 'ppll.png', color = (0,0,0,1), font_size = 25)
             timetable_layout.add_widget(day_button)
 
         for timeslot in emploi[list(emploi.keys())[0]]:
-            time_button = Button(text=f"{timeslot[0]} - {timeslot[1]}", size_hint_y=None, height=90)
+            time_button = Button(text=f"{timeslot[0]}\n{timeslot[1]}", size_hint_y=None, height=90, background_down = 'ppll.png', background_normal = 'ppll.png', color = (0,0,0,1), font_size = 25)
             timetable_layout.add_widget(time_button)
 
             # Populate the rest of the row with cell buttons
             for day in emploi.keys():
-                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=90, background_color=(0, 0, 0, 0.1), background_down = '1.png', color = (0,0,0,1))
+                cell_button = Button(text=f"Cell ({day}, {timeslot[0]})", size_hint_y=None, height=90, background_normal = 'lolo.png', background_down = 'lolo.png', color = (0,0,0,1))
                 cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot[0]: self.on_click(instance, day, timeslot))
                 timetable_layout.add_widget(cell_button)
 
@@ -244,16 +247,91 @@ class AmphiFinal(Screen):
         self.layout = BoxLayout(orientation='vertical')
         main_layout.add_widget(self.layout)
 
-        self.label2 = Label(text="", color=(0, 0, 0, 1))
-        main_layout.add_widget(self.label2)
 
-        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10, size_hint = (.1, .6), pos_hint = {'x':.85, 'y':.2})
-        self.button_layout.add_widget(Button(text = 'Placer reservation'))
-        self.button_layout.add_widget(Button(text = 'Modifier reservation'))
-        self.button_layout.add_widget(Button(text = 'Annuler reservation'))
+        
+        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10,size_hint = (.1,.2), pos_hint = {'x':.9, 'y':0.1})
+        self.button_layout.add_widget(Button(
+            background_normal = 'placer.png',
+            background_down = 'placer.png',
+            size_hint=(None, None),
+            size=(150, 50),
+        ))
+        self.button_layout.add_widget(Button(
+            background_normal = 'modifier.png',
+            background_down = 'modifier.png',
+            size_hint=(None, None),
+            size=(150, 50),
+        ))
+        self.button_layout.add_widget(Button(
+            background_normal = 'supprimer.png',
+            background_down = 'supprimer.png',
+            size_hint=(None, None),
+            size=(150, 50),
+        ))
         self.button_layout.opacity = 0
         self.button_layout.disabled = True 
-        main_layout.add_widget(self.button_layout)
+        self.add_widget(self.button_layout)
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01), pos_hint={'x':.17, 'y':0}) 
+        self.add_widget(self.label)
+        self.input_layout = GridLayout(cols=2, rows=5, spacing=(10, 10), size_hint=(.4, .2), pos_hint={'x': .17, 'y': 0.1})
+
+        # Ster lwl : nom.prenom
+        self.label1 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Nom et Prenom",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label1)
+        self.input_field1 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field1)
+
+        # Ster tani: Code
+        self.label2 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Code Utilisateur",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label2)
+        self.input_field2 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field2)
+
+        # Ster talet: Profession
+        self.label3 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Profession",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label3)
+        self.input_field3 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field3)
+
+        # Ster rab3: Module
+        self.label4 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Module",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label4)
+        self.input_field4 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.add_widget(self.input_field4)
+        # Ster khames: Demandes
+        self.label5 = Button(background_normal = 'lolo.png',
+            background_down = 'lolo.png',
+            size_hint=(.2, None),
+            size=(150, 30),
+            text="Demandes",
+            color = (0,0,0,1))
+        self.input_layout.add_widget(self.label5)
+        self.input_field5 = TextInput(size_hint=(.6, None), height=30, multiline=False)
+        self.input_layout.opacity = 0
+        self.input_layout.disabled = True 
+        self.input_layout.add_widget(self.input_field5)
+
+        self.add_widget(self.input_layout)
 
         self.add_widget(main_layout)
         main_layout.add_widget(header)
@@ -277,14 +355,18 @@ class AmphiFinal(Screen):
     def on_click(self, instance,day ,timeslot):
         self.button_layout.opacity = 1
         self.button_layout.disabled = False
-        self.label2.text = f"Selected timeslot: {day}, {timeslot}"
+        self.input_layout.opacity = 1
+        self.input_layout.disabled = False
+        self.label.text = f"Selected timeslot: {day}, {timeslot} on {self.set_amphi_number(self.amphi_number)}"
     
-  
-
     def on_enter(self):
         self.label.text = f"Selected Amphi: {self.set_amphi_number(self.amphi_number)}"
-        cal = calendar.TextCalendar()
-        self.calendar.text = cal.formatmonth(2024, 1)
         super(AmphiFinal, self).on_enter()
 
-
+    def on_leave(self):
+        # Hide buttons or perform actions when leaving the screen
+        self.button_layout.opacity = 0
+        self.button_layout.disabled = True
+        self.input_layout.opacity = 0
+        self.input_layout.disabled = True
+        super(AmphiFinal, self).on_leave()
