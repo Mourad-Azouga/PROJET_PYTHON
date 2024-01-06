@@ -275,8 +275,8 @@ class SalleSections(Screen):
         self.input_field4 = TextInput(size_hint=(.6, None), height=30, multiline=False)
         self.input_layout.add_widget(self.input_field4)
         # Ster khames: Demandes
-        self.label5 = Button(background_normal = 'lolo.png',
-            background_down = 'lolo.png',
+        self.label5 = Button(background_normal = 'ppll.png',
+            background_down = 'ppll.png',
             size_hint=(.2, None),
             size=(150, 30),
             text="Demandes",
