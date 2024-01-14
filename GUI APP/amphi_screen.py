@@ -489,6 +489,11 @@ class AmphiFinal(Screen):
             if success:
                 self.label.text = f"Reservation placed for {self.current_day}, {self.current_timeslot} in {selected_room.name}"
                 self.update_cell_button_texts(selected_room)
+                self.input_field1.text = ""
+                self.input_field2.text = ""
+                self.input_field3.text = ""
+                self.input_field4.text = ""
+                self.input_field5.text = ""
             else:
                 self.label.text = f"Reservation failed for {self.current_day}, {self.current_timeslot}"
         else:
