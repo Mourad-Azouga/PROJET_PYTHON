@@ -13,7 +13,6 @@ from kivy.app import App
 from kivy.graphics import Color, Rectangle
 from kivy.uix.spinner import Spinner
 from kivy.uix.dropdown import DropDown
-import calendar
 from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
 
@@ -46,12 +45,13 @@ class room():
         self.emploi = emploi
         self.materiaux = materiaux
         self.places = places
-        self.reservations = {day: {} for day in emploi}
+        self.reservations = {day: {timeslot: {'details': {'Nom': None, 'Code': None, 'Profession': None, 'Module': None, 'Demandes': None}} for timeslot in emploi[day]} for day in emploi}
+
     def check_reser(self, day, timeslot):
      """Vérifie si une réservation existe à un jour et un créneau horaire donnés."""
      return (day, timeslot) in self.reservations[day]
     
-    def make_reser(self, day, timeslot):
+    def make_reser(self, day, timeslot, details):
         """Designed to check if a timeslot in a day for a class is empty and adds a reserveration
         Args:
             self - to access the instance (aka the class or amphi)
@@ -61,9 +61,9 @@ class room():
             True for success
             False for failure
         """
-        if day in self.reservations and timeslot not in self.reservations[day]:
-            self.reservations[day][timeslot] = "Reserved"  # Needs to be changed with the module name
-            self.display_timetable()
+        if day in self.reservations and timeslot in self.reservations[day]:
+            self.reservations[day][timeslot]['details'] = details
+            print(f"Hadi dial header  {self.reservations[day][timeslot]['details']}")
             return True
         return False
 
@@ -81,24 +81,28 @@ class room():
             del self.reservations[day][timeslot]
             return True
         return False
-
-    def modify_reservation(self, day, old_timeslot, new_day, new_timeslot):
-        """Changes the timeslot for the reservation, calls remove to check for existance and removes the reservation
-        calls for make_reservation to make the new one
+    
+    def modify_reservation(self, day, timeslot, new_details=None):
+        """Modifies the details of an existing reservation.
+        
         Args:
             self - to access the instance (aka the class or amphi)
-            day - the day we want to make a reservation
-            old_timeslot - the preexisting timeslot
-            new_day - the new assigned day for the reservation
-            new_timeslot - the newly created timeslot
+            day - the day of the reservation
+            timeslot - the timeslot of the reservation
+            new_details - the new details for the reservation (if any)
+            
         Returns:
             True for success
             False for failure
         """
-        if self.remove_reser(day, old_timeslot):
-            self.make_reser(new_day, new_timeslot)
+        if self.reservations.get(day) and self.reservations[day].get(timeslot):
+            current_details = self.reservations[day][timeslot]['details']
+            if new_details:
+                current_details.update(new_details)
+            self.reservations[day][timeslot]['details'] = current_details
             return True
         return False
+
 
 
 #wa9ila anhtajo ndiro les instances kamlin hna

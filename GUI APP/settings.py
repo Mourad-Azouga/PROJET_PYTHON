@@ -1,59 +1,59 @@
-from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
-from kivy.uix.slider import Slider
-from kivy.uix.screenmanager import Screen
-from kivy.graphics import Color, Rectangle
+from header import *
 
 class Settings(Screen):
     def __init__(self, **kwargs):
         super(Settings, self).__init__(**kwargs)
+        background_image = Image(source='under.png', allow_stretch=True, keep_ratio=False)
+        self.add_widget(background_image)
+        main_layout = BoxLayout(orientation='vertical', size_hint =(1,1),pos_hint={'center_x': 0.5, 'center_y': 0.5})
+        #header how l "div" li 3amlin fih les buttons dial shutdown w dakchi
+        header = BoxLayout(orientation='vertical', size_hint=(None, .1))
 
-        # Set the initial background color
-        self.background_color = Color(1, 1, 1, 1)  # White color initially
+        quit_ = Button(
+            background_normal='3.png',
+            background_down='3.png',
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint = {'x': 0, 'y':0},
+            padding=(10, 0, 10, 0)
+        )
+        quit_.bind(on_release = self.quit_)
 
-        # Create sliders for RGB and Alpha components
-        self.red_slider = Slider(min=0, max=1, value=self.background_color.r)
-        self.green_slider = Slider(min=0, max=1, value=self.background_color.g)
-        self.blue_slider = Slider(min=0, max=1, value=self.background_color.b)
-        self.alpha_slider = Slider(min=0, max=1, value=self.background_color.a)
+        settings = Button(
+            background_normal='4.png',
+            background_down='4.png',
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint = {'x': 0, 'y': .8},
+            padding=(10, 0, 10, 0)
+        )
+        settings.bind(on_press=self.settings)
 
-        # Create an "Apply" button
-        apply_button = Button(text="Apply", on_press=self.apply_settings)
+        back_to_main = Button(
+            background_normal='5.png',
+            background_down='5.png',
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint = {'x': 0, 'y': .8},
+            padding=(10, 0, 10, 0)
+        )
+        back_to_main.bind(on_press=self.dismiss)
+        quit_.bind(on_press=self.quit_)
+        header.add_widget(back_to_main)
+        header.add_widget(settings)
+        header.add_widget(quit_)
 
-        # Create a label to display current settings
-        self.label = Label(text="Background Color: RGBA(1, 1, 1, 1)")
+        main_layout.add_widget(header)
+        self.add_widget(main_layout)
 
-        # Add widgets to the layout
-        settings_layout = BoxLayout(orientation='vertical')
-        settings_layout.add_widget(self.red_slider)
-        settings_layout.add_widget(self.green_slider)
-        settings_layout.add_widget(self.blue_slider)
-        settings_layout.add_widget(self.alpha_slider)
-        settings_layout.add_widget(apply_button)
-        settings_layout.add_widget(self.label)
-        self.add_widget(settings_layout)
-
-    def apply_settings(self, instance):
-        # Update the background color based on slider values
-        self.background_color.r = self.red_slider.value
-        self.background_color.g = self.green_slider.value
-        self.background_color.b = self.blue_slider.value
-        self.background_color.a = self.alpha_slider.value
-
-        # Update the label text
-        self.label.text = f"Background Color: RGBA({self.background_color.r}, {self.background_color.g}, {self.background_color.b}, {self.background_color.a})"
-
-        # Clear the canvas before applying the background color
-        self.canvas.before.clear()
-
-        # Apply the background color to the canvas
-        with self.canvas.before:
-            self.background_color
-            self.rect = Rectangle(size=self.size, pos=self.pos)
-
-        # Dismiss the settings screen
+    def dismiss(self, instance):
+        transition = SlideTransition(direction='right')
+        self.manager.transition = transition
         self.manager.current = 'main'
 
-# Assuming red_slider, green_slider, blue_slider, and alpha_slider are defined globally
+    def settings(self, instance):
+        self.manager.current = 'settings'
+
+    def quit_(self, instance):
+        App.get_running_app().stop()
+
