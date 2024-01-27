@@ -1,207 +1,10 @@
-# File: Amphi_screen.py
 from header import *
-from kivy.app import App
-
-class AmphiScreen(Screen):
+class ConfiScreen(Screen):
     def __init__(self, **kwargs):
-        super(AmphiScreen, self).__init__(**kwargs)
+        super(ConfiScreen, self).__init__(**kwargs)
         background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
         self.add_widget(background_image)
-        main_layout = BoxLayout(orientation='vertical', size_hint =(1,1),pos_hint={'center_x': 0.5, 'center_y': 0.5})
-        #header how l "div" li 3amlin fih les buttons dial shutdown w dakchi
-        header = BoxLayout(orientation='vertical', size_hint=(None, .1))
-
-        quit_ = Button(
-            background_normal='3.png',
-            background_down='3.png',
-            size_hint=(None, None),
-            size=(50, 50),
-            pos_hint = {'x': 0, 'y':0},
-            padding=(10, 0, 10, 0)
-        )
-        quit_.bind(on_release = self.quit_)
-
-        settings = Button(
-            background_normal='4.png',
-            background_down='4.png',
-            size_hint=(None, None),
-            size=(50, 50),
-            pos_hint = {'x': 0, 'y': .8},
-            padding=(10, 0, 10, 0)
-        )
-        settings.bind(on_press=self.settings)
-
-        back_to_main = Button(
-            background_normal='5.png',
-            background_down='5.png',
-            size_hint=(None, None),
-            size=(50, 50),
-            pos_hint = {'x': 0, 'y': .8},
-            padding=(10, 0, 10, 0)
-        )
-        back_to_main.bind(on_press=self.dismiss)
-        quit_.bind(on_press=self.quit_)
-        header.add_widget(back_to_main)
-        header.add_widget(settings)
-        header.add_widget(quit_)
-
-        #hna kanbdaw b les buttons
-        ster_1 = BoxLayout(
-            orientation='horizontal',
-            padding=(30, 0, 0, 30),
-            spacing=30,
-            size_hint=(.8, .8), pos_hint = {'x': 0.1, 'y': 1}
-        )
-
-        amphi1 = Button(
-            background_normal='empty_amphi.png',
-            background_down='empty_amphi.png',
-            size=(600, 300),
-            size_hint=(1, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "AMPHI 1",
-            color = (0,0,0,1),
-            font_size = 80
-        )
-        amphi1.bind(on_press=lambda instance: self.amphi_button_press(instance, 1))
-
-        amphi2 = Button(
-             background_normal='empty_amphi.png',
-            background_down='empty_amphi.png',
-            size=(600, 300),
-            size_hint=(1, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "AMPHI 2",
-            color = (0,0,0,1),
-            font_size = 80
-        )
-        amphi2.bind(on_press=lambda instance: self.amphi_button_press(instance, 2))
-
-        #ghadi n addiw les buttons n ster lwlani
-        ster_1.add_widget(amphi1)
-
-
-        ster_1.add_widget(amphi2)
-        main_layout.add_widget(ster_1)
-
-        ster_2 = BoxLayout(
-            orientation='horizontal',
-            padding=(30, 0, 0, 30),
-            spacing=30,
-            size_hint=(.8, .8), pos_hint = {'x': 0.1, 'y': 0}
-        )
-
-        amphi3 = Button(
-            background_normal='empty_amphi.png',
-            background_down='empty_amphi.png',
-            size=(600, 300),
-            size_hint=(1, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "AMPHI 3",
-            color = (0,0,0,1),
-            font_size = 80
-        )
-        amphi3.bind(on_press=lambda instance: self.amphi_button_press(instance, 3))
-
-
-        amphi4 = Button(
-            background_normal='empty_amphi.png',
-            background_down='empty_amphi.png',
-            size=(600, 300),
-            size_hint=(1, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "AMPHI 4",
-            color = (0,0,0,1),
-            font_size = 80
-        )
-        amphi4.bind(on_press=lambda instance: self.amphi_button_press(instance, 4))
-
-        ster_2.add_widget(amphi3)
-        ster_2.add_widget(amphi4)
-        main_layout.add_widget(ster_2)
-
-
-        ster_3 = BoxLayout(
-            orientation='horizontal',
-            padding=(30, 0, 0, 30),
-            spacing=30,
-            size_hint=(.8, .8), pos_hint = {'x': 0.1, 'y': 0}
-        )
-
-        amphi5 = Button(
-            background_normal='empty_amphi.png',
-            background_down='empty_amphi.png',
-            size=(600, 300),
-            size_hint=(1, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "AMPHI 5",
-            color = (0,0,0,1),
-            font_size = 80
-        )
-        amphi5.bind(on_press=lambda instance: self.amphi_button_press(instance, 5))
-
-
-        amphi6 = Button(
-            background_normal='empty_amphi.png',
-            background_down='empty_amphi.png',
-            size=(600, 300),
-            size_hint=(1, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "AMPHI 6",
-            color = (0,0,0,1),
-            font_size = 80
-        )
-        amphi6.bind(on_press=lambda instance: self.amphi_button_press(instance, 6))
-
-        ster_3.add_widget(amphi5)
-        ster_3.add_widget(amphi6)
-
-        main_layout.add_widget(ster_3)
-        main_layout.add_widget(header)
-
-
-
-
-
-
-        self.add_widget(main_layout)
-    """
-    Series of methods to be linked with the amphi buttons
-    Each method needs to send the number of the amphi to the amphi_final
-    so that we can know what number amphi the user wants to operate on without
-    making each amphi a file with their personal screen (not implemented correctly yet)
-    """
-    def amphi_button_press(self, instance, amphi_num):
-        # Set amphi_number in AmphiFinal and transition to it
-        amphi_number = amphi_num
-        amphi_final_screen = self.manager.get_screen('amphi_final')
-        amphi_final_screen.set_amphi_number(amphi_number)
-        transition = SlideTransition(direction='left')
-        self.manager.transition = transition
-        self.manager.current = 'amphi_final'
-
-
-#Hado dok les trois buttons safi msalyin don't touch
-    def dismiss(self, instance):
-        transition = SlideTransition(direction='right')
-        self.manager.transition = transition
-        self.manager.current = 'main'
-
-    def settings(self, instance):
-        self.manager.current = 'settings'
-
-    def quit_(self, instance):
-        App.get_running_app().stop()
-    
-class AmphiFinal(Screen):
-    def __init__(self, **kwargs):
-        super(AmphiFinal, self).__init__(**kwargs)
-        background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
-        self.add_widget(background_image)
-        self.set_amphi_number(0)
-        self.amphi_number = 0
         main_layout = BoxLayout(orientation='vertical', size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.5})
-
         header = BoxLayout(orientation='vertical', size_hint=(None, .1))
 
         quit_ = Button(
@@ -237,40 +40,30 @@ class AmphiFinal(Screen):
         header.add_widget(back_to_main)
         header.add_widget(settings)
         header.add_widget(quit_)
-        #hadi gher bach nhabt timetable b .1
-        self.pusher = Label(text="", color=(0, 0, 0, 1),size_hint=(.2, .1))
-        main_layout.add_widget(self.pusher)
-  
-  
 
-        timetable_layout = GridLayout(cols=7, rows=6, spacing=5, size_hint=(.8, None), pos_hint={'x':.17, 'y':1})
-        timetable_layout.add_widget(Button(text="", background_color = (0,0,0,0)))
+        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01), pos_hint={'x':.7, 'y':0.01}, font_size = 24) 
+
+        timetable_layout = GridLayout(cols=7, rows=6, spacing=1, size_hint=(.8, None), pos_hint={'x':.17, 'y':.30})
+        timetable_layout.add_widget(Button(text="", background_color =(0,0,0,0)))
         self.cell_buttons = {}
-
         for day in emploi.keys():
-            day_button = Button(text=day, size_hint_y=None, height=90, background_down = 'ppll.png', background_normal = 'ppll.png', color = (0,0,0,1), font_size = 25)
-            timetable_layout.add_widget(day_button)
+            day_button = Button(text=day, size_hint_y=None, height=90, background_normal = 'ppll.png', background_down = 'ppll.png', color = (0,0,0,1), font_size = 25)
+            timetable_layout.add_widget(day_button) 
 
         for timeslot in emploi[list(emploi.keys())[0]]:
             time_button = Button(text=f"{timeslot[0]}\n{timeslot[1]}", size_hint_y=None, height=90, background_down = 'ppll.png', background_normal = 'ppll.png', color = (0,0,0,1), font_size = 25)
             timetable_layout.add_widget(time_button)
 
-            # Populate the rest of the row with cell buttons
             for day in emploi.keys():
-                cell_button = Button(text=f"", size_hint_y=None, height=90, background_normal = 'lolo.png', background_down = 'lolo.png', color = (0,0,0,1))
+                
+                cell_button = Button(text="", size_hint_y=None, height=90, background_normal = 'lolo.png', color = (0,0,0,1))
                 cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot: self.on_click(instance, day, timeslot))
                 timetable_layout.add_widget(cell_button)
                 self.cell_buttons[(day, timeslot)] = cell_button
 
-
         main_layout.add_widget(timetable_layout)
 
-        self.layout = BoxLayout(orientation='vertical')
-        main_layout.add_widget(self.layout)
-
-
-        
-        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10,size_hint = (.1,.2), pos_hint = {'x':.9, 'y':0.1})
+        self.button_layout = GridLayout(cols = 1, rows = 3, spacing = 10,size_hint = (.3,.3), pos_hint = {'x':.9, 'y':0})
         placer_res = Button(
             background_normal = 'placer.png',
             background_down = 'placer.png',
@@ -280,14 +73,14 @@ class AmphiFinal(Screen):
         self.button_layout.add_widget(placer_res)
         placer_res.bind(on_press=self.place_reservation)
 
-        modifi_res = Button(
+        modif_res = Button(
             background_normal = 'modifier.png',
             background_down = 'modifier.png',
             size_hint=(None, None),
             size=(150, 50),
         )
-        self.button_layout.add_widget(modifi_res)
-        modifi_res.bind(on_press= self.modify_reservation)
+        self.button_layout.add_widget(modif_res)
+        modif_res.bind(on_press= self.modify_reservation)
 
         suppi_res = Button(
             background_normal = 'supprimer.png',
@@ -301,8 +94,6 @@ class AmphiFinal(Screen):
         self.button_layout.opacity = 0
         self.button_layout.disabled = True 
         self.add_widget(self.button_layout)
-        self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01), pos_hint={'x':.7, 'y':0.01}, font_size = 24) 
-        self.add_widget(self.label)
         self.input_layout = GridLayout(cols=3, rows=5, spacing=(10, 10), size_hint=(.5, .2), pos_hint={'x': .17, 'y': 0.1})
 
         # Ster lwl : nom.prenom
@@ -373,16 +164,15 @@ class AmphiFinal(Screen):
         self.input_layout.add_widget(self.output_label5)
 
         self.add_widget(self.input_layout)
-
         self.add_widget(main_layout)
+        self.add_widget(self.label)
         main_layout.add_widget(header)
 
-
-
+#hado msalyin mayt2adawch
     def dismiss(self, instance):
         transition = SlideTransition(direction='right')
         self.manager.transition = transition
-        self.manager.current = 'amphi'
+        self.manager.current = 'main'
 
     def settings(self, instance):
         self.manager.current = 'settings'
@@ -390,21 +180,48 @@ class AmphiFinal(Screen):
     def quit_(self, instance):
         App.get_running_app().stop()
 
-    def set_amphi_number(self, amphi_number):
-        self.amphi_number = amphi_number
-        return self.amphi_number
+    def on_enter(self):
+        self.label.text = f"Selected Classroom: Salle de Conférence"
+        if self.output_label1.text == "None":
+                self.output_label1.text = ""
+        if self.output_label2.text == "None":
+            self.output_label2.text = ""
+        if self.output_label3.text == "None":
+            self.output_label3.text = ""
+        if self.output_label4.text == "None":
+            self.output_label4.text = ""
+        if self.output_label5.text == "None":
+            self.output_label5.text = ""
+
+    def find_room_instance(self, selected_salle_name):
+        for room_instance in salles:
+            if room_instance == salle_confi:
+                return room_instance
+        return None
     
-    def on_click(self, instance, day, timeslot):
+    def update_cell_button_texts(self, selected_room):
+        for (day, timeslot), cell_button in self.cell_buttons.items():
+            reservation_details = selected_room.reservations.get(day, {}).get(timeslot, {}).get('details', {})
+            print(f"Day: {day}, Timeslot: {timeslot}, Reservation Details: {reservation_details}")
+            module_name = reservation_details.get('Module', '')
+            print(f"Module Name: {module_name}")
+            # Set the button text based on the reservation details
+            if module_name == None:
+                cell_button.text = ""
+            else:
+                cell_button.text = f"{module_name}"
+
+    def on_click(self, instance, day ,timeslot):
         self.button_layout.opacity = 1
         self.button_layout.disabled = False
         self.input_layout.opacity = 1
         self.input_layout.disabled = False
-        self.label.text = f"Selected timeslot: {day}, {timeslot} on {self.set_amphi_number(self.amphi_number)}"
+        self.label.text =  f"Selected timeslot: {day}, {timeslot} in Salle de Conférence"
         self.current_day = day
         self.current_timeslot = timeslot
 
-        # Check if the timeslot is already reserved
-        selected_room = self.find_room_instance(f"Amphi{self.set_amphi_number(self.amphi_number)}")
+        selected_salle_name = f"Salle de Conférence"
+        selected_room = self.find_room_instance(selected_salle_name)
         if day in selected_room.reservations and timeslot in selected_room.reservations[day]:
             # If reserved, fill labels with reservation details
             reservation_details = selected_room.reservations[day][timeslot]['details']
@@ -427,31 +244,8 @@ class AmphiFinal(Screen):
         if self.output_label5.text == "None":
             self.output_label5.text = ""
 
-
-
-    
-    def update_cell_button_texts(self, selected_room):
-        for (day, timeslot), cell_button in self.cell_buttons.items():
-            reservation_details = selected_room.reservations.get(day, {}).get(timeslot, {}).get('details', {})
-            print(f"Day: {day}, Timeslot: {timeslot}, Reservation Details: {reservation_details}")
-            module_name = reservation_details.get('Module', '')
-            print(f"Module Name: {module_name}")
-            # Set the button text based on the reservation details
-            if module_name == None:
-                cell_button.text = ""
-            else:
-                cell_button.text = f"{module_name}"
-
-
-
-    def find_room_instance(self, selected_salle_name):
-        for room_instance in amphis:
-            if room_instance.name == selected_salle_name:
-                return room_instance
-        return None    
-    
     def modify_reservation(self, instance):
-        selected_salle_name = f"Amphi{self.set_amphi_number(self.amphi_number)}"
+        selected_salle_name = f"Salle de Conférence"
         selected_room = self.find_room_instance(selected_salle_name)
 
         if selected_room and self.current_day and self.current_timeslot:
@@ -462,6 +256,7 @@ class AmphiFinal(Screen):
             demandes = self.input_field5.text
 
             new_details = {"Nom": nom_prenom, "Code": code_utilisateur, "Profession": profession, "Module": module, "Demandes": demandes}
+
             # Retrieve current details
             current_details = selected_room.reservations[self.current_day][self.current_timeslot]['details']
 
@@ -485,8 +280,9 @@ class AmphiFinal(Screen):
         else:
             self.label.text = "Error modifying reservation"
 
+
     def place_reservation(self, instance):
-        selected_salle_name = f"Amphi{self.set_amphi_number(self.amphi_number)}"
+        selected_salle_name = f"Salle de Conférence"
         selected_room = self.find_room_instance(selected_salle_name)
 
         if selected_room and self.current_day and self.current_timeslot:
@@ -512,7 +308,7 @@ class AmphiFinal(Screen):
             self.label.text = "Error placing reservation"
 
     def cancel_reservation(self, instance):
-        selected_salle_name = f"Amphi{self.set_amphi_number(self.amphi_number)}"
+        selected_salle_name = f"Salle de Conférence"
         selected_room = self.find_room_instance(selected_salle_name)
 
         if selected_room and self.current_day and self.current_timeslot:
@@ -526,28 +322,10 @@ class AmphiFinal(Screen):
         else:
             self.label.text = "Error canceling reservation"
 
-    def on_enter(self):
-        selected_salle_name = f"Amphi{self.set_amphi_number(self.amphi_number)}"
-        selected_room = self.find_room_instance(selected_salle_name)
-        self.label.text = f"Selected Amphi: {self.set_amphi_number(self.amphi_number)}"
-        self.update_cell_button_texts(selected_room)
-        if self.output_label1.text == "None":
-                self.output_label1.text = ""
-        if self.output_label2.text == "None":
-            self.output_label2.text = ""
-        if self.output_label3.text == "None":
-            self.output_label3.text = ""
-        if self.output_label4.text == "None":
-            self.output_label4.text = ""
-        if self.output_label5.text == "None":
-            self.output_label5.text = ""
-        super(AmphiFinal, self).on_enter()
-
     def on_leave(self):
         # Hide buttons or perform actions when leaving the screen
         self.button_layout.opacity = 0
         self.button_layout.disabled = True
         self.input_layout.opacity = 0
         self.input_layout.disabled = True
-        super(AmphiFinal, self).on_leave()
-        
+        super(ConfiScreen, self).on_leave()

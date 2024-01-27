@@ -52,3 +52,8 @@ I'm guessing this will be it on the front end, now we'll focus on making all of 
 ### 14/01/2024:
 -DONE!
 -Version Alpha.1.1 Done
+
+### 27/01/2024:
+-Added conference room, added new salle sections
+-Fixed modify and made it only change the non empty input boxes
+-Added ConfiScreen class for the new screen of salle de conférence

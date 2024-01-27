@@ -43,11 +43,13 @@ class SalleScreen(Screen):
         header.add_widget(settings)
         header.add_widget(quit_)
 
+#All the buttons
+        #First line: Button A + B
         main_buttons_1 = BoxLayout(
             orientation='horizontal',
             padding=(30, 30, 30, 30),
             spacing=30,
-            size_hint=(.8, .8), pos_hint={'x': 0.1, 'y': 1}
+            size_hint=(.7, .8), pos_hint={'x': 0.15, 'y': 0}
         )
 
         SALLE_A = Button(
@@ -58,7 +60,7 @@ class SalleScreen(Screen):
             pos_hint={'x': 0, 'y': 0},
             text = "SALLE A",
             color = (0,0,0,1),
-            font_size = 80
+            font_size = 70
         )
         SALLE_A.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle A'))
 
@@ -70,7 +72,7 @@ class SalleScreen(Screen):
             pos_hint={'x': 0, 'y': 0},
             text = "SALLE B",
             color = (0,0,0,1),
-            font_size = 80
+            font_size = 70
         )
         SALLE_B.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle B'))
 
@@ -78,11 +80,12 @@ class SalleScreen(Screen):
         main_buttons_1.add_widget(SALLE_B)
         main_layout.add_widget(main_buttons_1)
 
+        #Line 2: button E + F
         main_buttons_2 = BoxLayout(
             orientation='horizontal',
             padding=(30, 30, 30, 30),
             spacing=30,
-            size_hint=(.8, .8), pos_hint={'x': 0.1, 'y': 0}
+            size_hint=(.7, .8), pos_hint={'x': 0.15, 'y': 0}
         )
 
         SALLE_E = Button(
@@ -93,7 +96,7 @@ class SalleScreen(Screen):
             pos_hint={'x': 0, 'y': 0},
             text = "SALLE E",
             color = (0,0,0,1),
-            font_size = 80
+            font_size = 70
         )
         SALLE_E.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle E'))
 
@@ -105,13 +108,73 @@ class SalleScreen(Screen):
             pos_hint={'x': 0, 'y': 0},
             text = "SALLE F",
             color = (0,0,0,1),
-            font_size = 80
+            font_size = 70
         )
         SALLE_F.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle F'))
 
         main_buttons_2.add_widget(SALLE_E)
         main_buttons_2.add_widget(SALLE_F)
         main_layout.add_widget(main_buttons_2)
+
+        #Line3 G + D
+        main_buttons_3 = BoxLayout(
+            orientation='horizontal',
+            padding=(30, 30, 30, 30),
+            spacing=30,
+            size_hint=(.7, .8), pos_hint={'x': 0.15, 'y': 0}
+        )
+
+        SALLE_G = Button(
+            background_normal='empty_salle.png',
+            background_down='empty_salle.png',
+            size=(600, 300),
+            size_hint=(.5, 1),
+            pos_hint={'x': 0, 'y': 0},
+            text = "SALLE G",
+            color = (0,0,0,1),
+            font_size = 70
+        )
+        SALLE_G.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle G'))
+
+        SALLE_D = Button(
+            background_normal='empty_salle.png',
+            background_down='empty_salle.png',
+            size=(600, 300),
+            size_hint=(.5, 1),
+            pos_hint={'x': 0, 'y': 0},
+            text = "SALLE D",
+            color = (0,0,0,1),
+            font_size = 70
+        )
+        SALLE_D.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle D'))
+
+        main_buttons_3.add_widget(SALLE_G)
+        main_buttons_3.add_widget(SALLE_D)
+        main_layout.add_widget(main_buttons_3)
+
+
+        #line 4: fih salle C
+        main_buttons_4 = BoxLayout(
+            orientation='horizontal',
+            padding=(30, 30, 30, 30),
+            spacing=30,
+            size_hint=(.8, .8), pos_hint={'x': 0.32, 'y': 0}
+        )
+
+        SALLE_C = Button(
+            background_normal='empty_salle.png',
+            background_down='empty_salle.png',
+            size=(600, 300),
+            size_hint_x=None,
+            pos_hint={'x': 0, 'y': 0},
+            text = "SALLE C",
+            color = (0,0,0,1),
+            font_size = 70
+        )
+        SALLE_C.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle C'))
+        main_buttons_4.add_widget(SALLE_C)
+
+        main_layout.add_widget(main_buttons_4)
         main_layout.add_widget(header)
 
         self.add_widget(main_layout)
@@ -427,7 +490,7 @@ class SalleSections(Screen):
             self.output_label5.text = ""
 
     def modify_reservation(self, instance):
-        selected_salle_name = f"Amphi{self.set_amphi_number(self.amphi_number)}"
+        selected_salle_name = f"{self.set_salle_section(self.salle_section)}-{self.set_salle_section_number(self.salle_section_number)}"
         selected_room = self.find_room_instance(selected_salle_name)
 
         if selected_room and self.current_day and self.current_timeslot:
@@ -439,11 +502,24 @@ class SalleSections(Screen):
 
             new_details = {"Nom": nom_prenom, "Code": code_utilisateur, "Profession": profession, "Module": module, "Demandes": demandes}
 
-            success = selected_room.modify_reservation(self.current_day, self.current_timeslot, new_details=new_details)
+            # Retrieve current details
+            current_details = selected_room.reservations[self.current_day][self.current_timeslot]['details']
+
+            # Create a new dictionary with merged details
+            updated_details = {
+                key: new_details[key] if new_details[key] != "" else current_details[key] for key in current_details
+            }
+
+            success = selected_room.modify_reservation(self.current_day, self.current_timeslot, new_details=updated_details)
 
             if success:
                 self.label.text = f"Reservation modified for {self.current_day}, {self.current_timeslot} in {selected_room.name}"
                 self.update_cell_button_texts(selected_room)
+                self.input_field1.text = ""
+                self.input_field2.text = ""
+                self.input_field3.text = ""
+                self.input_field4.text = ""
+                self.input_field5.text = ""
             else:
                 self.label.text = f"Reservation modification failed for {self.current_day}, {self.current_timeslot}"
         else:

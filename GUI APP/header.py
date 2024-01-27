@@ -127,6 +127,16 @@ salle_B_nums = [
     for i in range(15)
 ]
 
+salle_C_nums = [
+    room(2, {i + 1}, f"Salle C-{i + 1}", emploi, materiaux, 80)
+    for i in range(15)
+]
+
+salle_D_nums = [
+    room(2, {i + 1}, f"Salle D-{i + 1}", emploi, materiaux, 80)
+    for i in range(15)
+]
+
 salle_E_nums = [
     room(2, {i + 1}, f"Salle E-{i + 1}", emploi, materiaux, 80)
     for i in range(15)
@@ -136,4 +146,12 @@ salle_F_nums = [
     room(2, {i + 1}, f"Salle F-{i + 1}", emploi, materiaux, 80)
     for i in range(15)
 ]
-salles = [salle_A_nums, salle_B_nums, salle_E_nums, salle_F_nums]
+
+salle_G_nums = [
+    room(2, {i + 1}, f"Salle G-{i + 1}", emploi, materiaux, 80)
+    for i in range(15)
+]
+
+salle_confi = room(2, 1, "Salle de Conférence", emploi, materiaux, 400)
+
+salles = [salle_A_nums, salle_B_nums, salle_E_nums, salle_F_nums, salle_D_nums, salle_G_nums, salle_G_nums, salle_confi]
