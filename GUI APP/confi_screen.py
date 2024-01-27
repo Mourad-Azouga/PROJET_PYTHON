@@ -17,16 +17,6 @@ class ConfiScreen(Screen):
         )
         quit_.bind(on_release=self.quit_)
 
-        settings = Button(
-            background_normal='4.png',
-            background_down='4.png',
-            size_hint=(None, None),
-            size=(50, 50),
-            pos_hint={'x': 0, 'y': .8},
-            padding=(10, 0, 10, 0)
-        )
-        settings.bind(on_press=self.settings)
-
         back_to_main = Button(
             background_normal='5.png',
             background_down='5.png',
@@ -38,7 +28,6 @@ class ConfiScreen(Screen):
         back_to_main.bind(on_press=self.dismiss)
         quit_.bind(on_press=self.quit_)
         header.add_widget(back_to_main)
-        header.add_widget(settings)
         header.add_widget(quit_)
 
         self.label = Label(text="", color=(0, 0, 0, 1),size_hint=(.3, .01), pos_hint={'x':.7, 'y':0.01}, font_size = 24) 
@@ -173,9 +162,6 @@ class ConfiScreen(Screen):
         transition = SlideTransition(direction='right')
         self.manager.transition = transition
         self.manager.current = 'main'
-
-    def settings(self, instance):
-        self.manager.current = 'settings'
 
     def quit_(self, instance):
         App.get_running_app().stop()

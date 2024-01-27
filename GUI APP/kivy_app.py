@@ -23,20 +23,11 @@ class MainScreen(Screen):
             background_down='3.png',
             size_hint=(None, None),
             size=(50, 50),
-            pos_hint={'x': 0.05, 'y': .85},
+            pos_hint={'x': 0, 'y': .85},
             padding=(10, 0, 10, 0)
         )
-        settings = Button(
-            background_normal='4.png',
-            background_down='4.png',
-            size_hint=(None, None),
-            size=(50, 50),
-            pos_hint={'x': 0, 'y': .85},
-            padding=(30, 0, 10, 0)
-        )
-        settings.bind(on_press = self.settings)
+
         quit_.bind(on_press=self.quit_)
-        header.add_widget(settings)
         header.add_widget(quit_)
         main_layout.add_widget(header)
 
@@ -98,11 +89,6 @@ class MainScreen(Screen):
         transition = SlideTransition(direction='left')
         self.manager.transition = transition
         self.manager.current = 'confi_screen'
-
-    def settings(self, instance):
-        transition = SlideTransition(direction='left')
-        self.manager.transition = transition
-        self.manager.current = 'settings'
 
     def quit_(self, instance):
         MainApp().stop()

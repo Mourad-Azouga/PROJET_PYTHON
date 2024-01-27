@@ -57,3 +57,4 @@ I'm guessing this will be it on the front end, now we'll focus on making all of 
 -Added conference room, added new salle sections
 -Fixed modify and made it only change the non empty input boxes
 -Added ConfiScreen class for the new screen of salle de conférence
+-Removed settings
