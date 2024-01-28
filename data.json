@@ -1,5 +1,7 @@
 {
   "Amphi2;Lundi;('9:00 AM', '10:45 AM')": "{'Nom': 'John Doe', 'Code': '123', 'Profession': 'Professor', 'Module': '9aray', 'Demandes': 'None'}",
   "Amphi1;Lundi;('9:00 AM', '10:45 AM')": "{'Nom': 'Abdlah', 'Code': '123', 'Profession': 'Professor', 'Module': 'Math', 'Demandes': 'None'}",
-  "Salle A-4;Lundi;('9:00 AM', '10:45 AM')": "{'Nom': 'ddd', 'Code': 'ddd', 'Profession': 'ddd', 'Module': 'ddd', 'Demandes': 'ddd'}"
+  "Salle A-4;Lundi;('9:00 AM', '10:45 AM')": "{'Nom': 'ddd', 'Code': 'ddd', 'Profession': 'ddd', 'Module': 'ddd', 'Demandes': 'ddd'}",
+  "Amphi2;Mercredi;('11:00 AM', '12:45 PM')": "{'Nom': 'Saad ', 'Code': 'P100', 'Profession': 'Kharay', 'Module': 'Math', 'Demandes': 'Non'}",
+  "Salle de Conf\u00e9rence;Mardi;('11:00 AM', '12:45 PM')": "{'Nom': 'Ahmed', 'Code': 'KH5454', 'Profession': 'Responsable Filiere', 'Module': 'Soft Skills', 'Demandes': 'Micro'}"
 }

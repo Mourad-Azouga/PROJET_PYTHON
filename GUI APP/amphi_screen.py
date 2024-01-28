@@ -243,7 +243,7 @@ class AmphiFinal(Screen):
 
             # Populate the rest of the row with cell buttons
             for day in emploi.keys():
-                cell_button = Button(text=f"", size_hint_y=None, height=90, background_normal = 'lolo.png', background_down = 'lolo.png', color = (0,0,0,1))
+                cell_button = Button(text=f"", size_hint_y=None, height=90, background_normal = 'lolo.png', background_down = 'lolo.png', color = (0,0,0,1), font_size = 25)
                 cell_button.bind(on_press=lambda instance, day=day, timeslot=timeslot: self.on_click(instance, day, timeslot))
                 timetable_layout.add_widget(cell_button)
                 self.cell_buttons[(day, timeslot)] = cell_button
