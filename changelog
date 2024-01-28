@@ -58,3 +58,7 @@ I'm guessing this will be it on the front end, now we'll focus on making all of 
 -Fixed modify and made it only change the non empty input boxes
 -Added ConfiScreen class for the new screen of salle de conférence
 -Removed settings
+
+### 28/01/2024:
+-Version Alpha 1.2 DONE DONE DONE!!!
+-Added the saving, loading algorythmes! It'll automatically save now, then it'll load it anytime you start the app!!!

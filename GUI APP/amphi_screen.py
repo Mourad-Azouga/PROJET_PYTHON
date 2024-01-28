@@ -181,6 +181,7 @@ class AmphiScreen(Screen):
     
 class AmphiFinal(Screen):
     def __init__(self, **kwargs):
+
         super(AmphiFinal, self).__init__(**kwargs)
         background_image = Image(source='back1.png', allow_stretch=True, keep_ratio=False)
         self.add_widget(background_image)
@@ -405,9 +406,7 @@ class AmphiFinal(Screen):
     def update_cell_button_texts(self, selected_room):
         for (day, timeslot), cell_button in self.cell_buttons.items():
             reservation_details = selected_room.reservations.get(day, {}).get(timeslot, {}).get('details', {})
-            print(f"Day: {day}, Timeslot: {timeslot}, Reservation Details: {reservation_details}")
             module_name = reservation_details.get('Module', '')
-            print(f"Module Name: {module_name}")
             # Set the button text based on the reservation details
             if module_name == None:
                 cell_button.text = ""
@@ -469,6 +468,9 @@ class AmphiFinal(Screen):
             demandes = self.input_field5.text
 
             details = {"Nom": nom_prenom, "Code": code_utilisateur, "Profession": profession, "Module": module, "Demandes": demandes}
+            print(self.current_timeslot)
+            print(type(self.current_timeslot))
+
             success = selected_room.make_reser(self.current_day, self.current_timeslot, details=details)
             if success:
                 self.label.text = f"Reservation placed for {self.current_day}, {self.current_timeslot} in {selected_room.name}"
@@ -503,6 +505,8 @@ class AmphiFinal(Screen):
         selected_room = self.find_room_instance(selected_salle_name)
         self.label.text = f"Selected Amphi: {self.set_amphi_number(self.amphi_number)}"
         self.update_cell_button_texts(selected_room)
+        
+
         if self.output_label1.text == "None":
                 self.output_label1.text = ""
         if self.output_label2.text == "None":

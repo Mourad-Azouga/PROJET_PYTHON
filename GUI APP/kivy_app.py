@@ -2,7 +2,6 @@ from header import *
 from amphi_screen import AmphiScreen, AmphiFinal
 from salle_screen import SalleScreen, SalleSections
 from confi_screen import ConfiScreen
-from settings import Settings
 
 Window.clearcolor = (238/255, 238/255, 238/255, 1)
 Window.size = (1200,600)
@@ -95,13 +94,13 @@ class MainScreen(Screen):
 
 class MainApp(App):
     def build(self):
+        room.load_reservations("data.json")
         self.title = 'TIMEXI - Gestion Emploi Du Temps'
         screen_manager = ScreenManager()
 
         main_screen = MainScreen(name='main')
         amphi_screen = AmphiScreen(name='amphi')
         salle_screen = SalleScreen(name='salle')
-        settings = Settings(name='settings')
         amphi_final = AmphiFinal(name='amphi_final')
         salle_sections = SalleSections(name='salle_sections')
         confi_screen = ConfiScreen(name='confi_screen')
@@ -112,12 +111,12 @@ class MainApp(App):
         screen_manager.add_widget(main_screen)
         screen_manager.add_widget(amphi_screen)
         screen_manager.add_widget(salle_screen)
-        screen_manager.add_widget(settings)
         screen_manager.add_widget(amphi_final)
         screen_manager.add_widget(salle_sections)
         screen_manager.add_widget(confi_screen)
 
         return screen_manager
+
 
 
 if __name__ == '__main__':

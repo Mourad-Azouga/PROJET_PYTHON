@@ -15,10 +15,8 @@ from kivy.uix.spinner import Spinner
 from kivy.uix.dropdown import DropDown
 from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
-
-
-#Tabulate imports
-from tabulate import tabulate
+import ast
+import re
 
 #emploi du temps
 emploi = {
@@ -32,8 +30,38 @@ emploi = {
 
 # hna we'll store all the dictionaries and stuff, like les noms de salles w les creneaux w dakchi
 # We'll make some classmethods to insert the reservation hashtable inside the room class instances
+import json
+
+class FileManager:
+    @classmethod
+    def parse_reservations(cls, filename):
+        reservations = {}
+
+        with open(filename, 'r') as file:
+            data = json.load(file)
+            for key, value in data.items():
+                match = re.match(r"(.+);(.+);\((.+)\)", key)
+                if match:
+                    instance_name, day, timeslot_str = match.groups()
+                    timeslot = tuple(ast.literal_eval(timeslot_str))
+                else:
+                    print(f"Invalid key format: {key}")
+                    continue
+                reservation_key = f"{instance_name};{day};{timeslot}"
+                if reservation_key in reservations:
+                    print(f"Double reservation found for {reservation_key}. Skipping.")
+                    continue
+                details = ast.literal_eval(value)
+                if instance_name not in reservations:
+                    reservations[instance_name] = {}
+                if day not in reservations[instance_name]:
+                    reservations[instance_name][day] = {}
+                reservations[instance_name][day][timeslot] = {'details': details}
+
+        return reservations
 
 class room():
+    instances = []
     """This is the main class of our project, it's the backbone, the beating heart
     Designed to store and navigate through all the instances(Salles and Amphis)
     This class has many methods that'll serve as the backbone of main.py methods"""
@@ -46,7 +74,8 @@ class room():
         self.materiaux = materiaux
         self.places = places
         self.reservations = {day: {timeslot: {'details': {'Nom': None, 'Code': None, 'Profession': None, 'Module': None, 'Demandes': None}} for timeslot in emploi[day]} for day in emploi}
-
+        self.__class__.instances.append(self)
+    
     def check_reser(self, day, timeslot):
      """Vérifie si une réservation existe à un jour et un créneau horaire donnés."""
      return (day, timeslot) in self.reservations[day]
@@ -62,9 +91,15 @@ class room():
             False for failure
         """
         if day in self.reservations and timeslot in self.reservations[day]:
+            reservation_key = f"{self.name};{day};{str(timeslot)}"
             self.reservations[day][timeslot]['details'] = details
-            print(f"Hadi dial header  {self.reservations[day][timeslot]['details']}")
+            self.save_reservations_to_file(reservation_key, details)
+
             return True
+        elif day not in self.reservations:
+            print("The issue is the day")
+        elif timeslot not in self.reservations:
+            print("timeslot is the issue")
         return False
 
     def remove_reser(self, day, timeslot):
@@ -78,6 +113,8 @@ class room():
             False for failure
         """
         if day in self.reservations and timeslot in self.reservations[day]:
+            reservation_key = f"{self.name};{day};{str(timeslot)}"
+            self.remove_reservation_from_file(reservation_key)
             del self.reservations[day][timeslot]
             return True
         return False
@@ -97,16 +134,73 @@ class room():
         """
         if self.reservations.get(day) and self.reservations[day].get(timeslot):
             current_details = self.reservations[day][timeslot]['details']
+            reservation_key = f"{self.name};{day};{str(timeslot)}"
+            self.remove_reservation_from_file(reservation_key)
             if new_details:
                 current_details.update(new_details)
             self.reservations[day][timeslot]['details'] = current_details
+            self.save_reservations_to_file(reservation_key, current_details)
             return True
         return False
+    
+    @classmethod
+    def load_reservations(cls, filename):
+        all_reservations = FileManager.parse_reservations(filename)
+        for instance_name, days in all_reservations.items():
+            instance = cls.find_instance_by_name(instance_name)
+            if instance:
+                for day, timeslots in days.items():
+                    for timeslot, details in timeslots.items():
+                        # Extract the nested 'details' dictionary
+                        nested_details = details.get('details', {})
+                        if not instance.make_reser(day, timeslot, nested_details):
+                            print(timeslot)
+                            print(type(timeslot))
+
+                            print(f"Failed to load reservation for {instance_name} on {day} at {timeslot}.")
+                        else:
+                            print(f"Succefully to load reservation for {instance_name} on {day} at {timeslot}.")
+        return all_reservations
+
+    @classmethod
+    def find_instance_by_name(cls, name):
+        for instance in cls.instances:
+            if instance.name == name:
+                return instance
+        return None
+    @classmethod
+    def save_reservations_to_file(self, reservation_key, details):
+        filename = 'data.json'
+
+        with open(filename, 'r') as file:
+            all_reservations = json.load(file)
+
+        all_reservations[reservation_key] = str(details)
+
+        with open(filename, 'w') as file:
+            json.dump(all_reservations, file, indent=2)
+    
+    def remove_reservation_from_file(self, reservation_key):
+        """Removes a reservation from the data file."""
+        filename = 'data.json'
+
+        with open(filename, 'r') as file:
+            all_reservations = json.load(file)
+
+        # Remove the reservation from the dictionary
+        if reservation_key in all_reservations:
+            del all_reservations[reservation_key]
+
+            # Write the updated reservations back to the file
+            with open(filename, 'w') as file:
+                json.dump(all_reservations, file, indent=2)
+
+
+
 
 
 
 #wa9ila anhtajo ndiro les instances kamlin hna
-#Makandench ghadi nkheli materiaux (NEEDS WORK !! ATTENTION)
 materiaux = "Datashow;Micro"
 # 3amar les objects salles w amphis
 amphi1 = room(1, 1, "Amphi1", emploi, materiaux, 115)
