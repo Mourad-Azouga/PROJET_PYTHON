@@ -33,6 +33,7 @@ emploi = {
 import json
 
 class FileManager:
+    '''This class will be used to parse the data from the json file'''
     @classmethod
     def parse_reservations(cls, filename):
         reservations = {}
@@ -248,4 +249,4 @@ salle_G_nums = [
 
 salle_confi = room(2, 1, "Salle de Conférence", emploi, materiaux, 400)
 
-salles = [salle_A_nums, salle_B_nums, salle_E_nums, salle_F_nums, salle_D_nums, salle_G_nums, salle_G_nums, salle_confi]
+salles = [salle_A_nums, salle_B_nums, salle_E_nums, salle_F_nums, salle_D_nums, salle_G_nums, salle_C_nums, salle_confi]

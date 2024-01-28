@@ -77,11 +77,47 @@ class SalleScreen(Screen):
             size_hint=(.7, .8), pos_hint={'x': 0.15, 'y': 0}
         )
 
-        SALLE_E = Button(
+        SALLE_C = Button(
             background_normal='empty_salle.png',
             background_down='empty_salle.png',
             size=(600, 300),
             size_hint=(1, 1),
+            pos_hint={'x': 0, 'y': 0},
+            text = "SALLE C",
+            color = (0,0,0,1),
+            font_size = 70
+        )
+        SALLE_C.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle C'))
+
+        SALLE_D = Button(
+            background_normal='empty_salle.png',
+            background_down='empty_salle.png',
+            size=(600, 300),
+            size_hint=(1, 1),
+            pos_hint={'x': 0, 'y': 0},
+            text = "SALLE D",
+            color = (0,0,0,1),
+            font_size = 70
+        )
+        SALLE_D.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle D'))
+
+        main_buttons_2.add_widget(SALLE_C)
+        main_buttons_2.add_widget(SALLE_D)
+        main_layout.add_widget(main_buttons_2)
+
+        #Line3 G + D
+        main_buttons_3 = BoxLayout(
+            orientation='horizontal',
+            padding=(30, 30, 30, 30),
+            spacing=30,
+            size_hint=(.7, .8), pos_hint={'x': 0.15, 'y': 0}
+        )
+
+        SALLE_E = Button(
+            background_normal='empty_salle.png',
+            background_down='empty_salle.png',
+            size=(600, 300),
+            size_hint=(.5, 1),
             pos_hint={'x': 0, 'y': 0},
             text = "SALLE E",
             color = (0,0,0,1),
@@ -93,7 +129,7 @@ class SalleScreen(Screen):
             background_normal='empty_salle.png',
             background_down='empty_salle.png',
             size=(600, 300),
-            size_hint=(1, 1),
+            size_hint=(.5, 1),
             pos_hint={'x': 0, 'y': 0},
             text = "SALLE F",
             color = (0,0,0,1),
@@ -101,44 +137,8 @@ class SalleScreen(Screen):
         )
         SALLE_F.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle F'))
 
-        main_buttons_2.add_widget(SALLE_E)
-        main_buttons_2.add_widget(SALLE_F)
-        main_layout.add_widget(main_buttons_2)
-
-        #Line3 G + D
-        main_buttons_3 = BoxLayout(
-            orientation='horizontal',
-            padding=(30, 30, 30, 30),
-            spacing=30,
-            size_hint=(.7, .8), pos_hint={'x': 0.15, 'y': 0}
-        )
-
-        SALLE_G = Button(
-            background_normal='empty_salle.png',
-            background_down='empty_salle.png',
-            size=(600, 300),
-            size_hint=(.5, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "SALLE G",
-            color = (0,0,0,1),
-            font_size = 70
-        )
-        SALLE_G.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle G'))
-
-        SALLE_D = Button(
-            background_normal='empty_salle.png',
-            background_down='empty_salle.png',
-            size=(600, 300),
-            size_hint=(.5, 1),
-            pos_hint={'x': 0, 'y': 0},
-            text = "SALLE D",
-            color = (0,0,0,1),
-            font_size = 70
-        )
-        SALLE_D.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle D'))
-
-        main_buttons_3.add_widget(SALLE_G)
-        main_buttons_3.add_widget(SALLE_D)
+        main_buttons_3.add_widget(SALLE_E)
+        main_buttons_3.add_widget(SALLE_F)
         main_layout.add_widget(main_buttons_3)
 
 
@@ -150,18 +150,18 @@ class SalleScreen(Screen):
             size_hint=(.8, .8), pos_hint={'x': 0.32, 'y': 0}
         )
 
-        SALLE_C = Button(
+        SALLE_G = Button(
             background_normal='empty_salle.png',
             background_down='empty_salle.png',
             size=(600, 300),
             size_hint_x=None,
             pos_hint={'x': 0, 'y': 0},
-            text = "SALLE C",
+            text = "SALLE G",
             color = (0,0,0,1),
             font_size = 70
         )
-        SALLE_C.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle C'))
-        main_buttons_4.add_widget(SALLE_C)
+        SALLE_G.bind(on_press=lambda instance: self.salle_button_press(instance, 'Salle G'))
+        main_buttons_4.add_widget(SALLE_G)
 
         main_layout.add_widget(main_buttons_4)
         main_layout.add_widget(header)
@@ -440,7 +440,6 @@ class SalleSections(Screen):
 
     def on_click(self, instance,day ,timeslot):
         if self.salle_section is None or self.salle_section_number == 0 or self.salle_section_number is None:
-        # User hasn't selected a salle number yet, don't do anything
             return
         self.button_layout.opacity = 1
         self.button_layout.disabled = False
