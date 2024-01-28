@@ -210,7 +210,17 @@ class AmphiFinal(Screen):
             padding=(10, 0, 10, 0)
         )
         back_to_main.bind(on_press=self.dismiss)
+        screenshot = Button(
+            background_normal='4.png',
+            background_down='4.png',
+            size_hint=(None, None),
+            size=(50, 50),
+            pos_hint={'x': 0, 'y': .8},
+            padding=(10, 0, 10, 0)
+        )
+        screenshot.bind(on_press=self.screenshot)
         quit_.bind(on_press=self.quit_)
+        header.add_widget(screenshot)
         header.add_widget(back_to_main)
         header.add_widget(quit_)
         #hadi gher bach nhabt timetable b .1
@@ -362,6 +372,11 @@ class AmphiFinal(Screen):
 
     def quit_(self, instance):
         App.get_running_app().stop()
+
+    def screenshot(self, instance):
+        screenshot_filename = f"{self.name}.png"
+        Window.screenshot(name=screenshot_filename)
+        print(f'Screenshot saved as {screenshot_filename}')
 
     def set_amphi_number(self, amphi_number):
         self.amphi_number = amphi_number

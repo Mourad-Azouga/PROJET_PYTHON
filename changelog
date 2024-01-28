@@ -62,3 +62,4 @@ I'm guessing this will be it on the front end, now we'll focus on making all of 
 ### 28/01/2024:
 -Version Alpha 1.2 DONE DONE DONE!!!
 -Added the saving, loading algorythmes! It'll automatically save now, then it'll load it anytime you start the app!!!
+-Added screenshot ability with icon
