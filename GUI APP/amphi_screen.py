@@ -407,11 +407,12 @@ class AmphiFinal(Screen):
         for (day, timeslot), cell_button in self.cell_buttons.items():
             reservation_details = selected_room.reservations.get(day, {}).get(timeslot, {}).get('details', {})
             module_name = reservation_details.get('Module', '')
+            prof_name = reservation_details.get('Nom', '')
             # Set the button text based on the reservation details
             if module_name == None:
                 cell_button.text = ""
             else:
-                cell_button.text = f"{module_name}"
+                cell_button.text = f"{module_name}\n{prof_name}"
 
 
 
