@@ -48,9 +48,16 @@ To install and run TimeXi on your local machine, follow these steps:
    Allocate specific time periods to teachers or subjects as needed.
 
 ## Screenshots
+
 ![Screenshot 1](screenshots/image1.png)
-![Screenshot 2](screenshots/screenshot2.png)
-*Description of screenshot 2*
+
+![Screenshot 2](screenshots/image2.png)
+
+![Screenshot 3](screenshots/image3.png)
+
+![Screenshot 4](screenshots/image4.png)
+
+
 
 ## Contributing
 Contributions are welcome! If you'd like to contribute, please follow these steps:
@@ -61,15 +68,8 @@ Contributions are welcome! If you'd like to contribute, please follow these step
 4. Push to the branch (`git push origin feature-branch`).
 5. Create a new Pull Request.
 
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
 ## Contact
 If you have any questions or suggestions, feel free to reach out:
 
-- Email: your.email@example.com
-- GitHub: [yourusername](https://github.com/yourusername)
-
----
-
-Feel free to customize this template to better fit your project.
+- Email: mourad-azouga@outlook.fr
+- GitHub: [Mourad-Azouga](https://github.com/Mourad-Azouga)

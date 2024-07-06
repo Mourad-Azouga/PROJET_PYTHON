@@ -4,5 +4,7 @@
   "Salle A-4;Lundi;('9:00 AM', '10:45 AM')": "{'Nom': 'ddd', 'Code': 'ddd', 'Profession': 'ddd', 'Module': 'ddd', 'Demandes': 'ddd'}",
   "Amphi2;Mercredi;('11:00 AM', '12:45 PM')": "{'Nom': 'Saad ', 'Code': 'P100', 'Profession': 'Kharay', 'Module': 'Math', 'Demandes': 'Non'}",
   "Salle E-8;Lundi;('9:00 AM', '10:45 AM')": "{'Nom': 'Aziz', 'Code': 'LO4545', 'Profession': 'Professeur', 'Module': 'Algorithme', 'Demandes': ''}",
-  "Amphi1;Mardi;('1:00 PM', '2:45 PM')": "{'Nom': 'Mohamed', 'Code': 'P9845', 'Profession': 'Professeur', 'Module': 'Language C', 'Demandes': 'Micro et Datashow'}"
+  "Amphi1;Mardi;('1:00 PM', '2:45 PM')": "{'Nom': 'Mohamed', 'Code': 'P9845', 'Profession': 'Professeur', 'Module': 'Language C', 'Demandes': 'Micro et Datashow'}",
+  "Amphi1;Jeudi;('1:00 PM', '2:45 PM')": "{'Nom': 'Carlos', 'Code': 'P142536', 'Profession': 'Professeur', 'Module': 'Web Developpment', 'Demandes': ''}",
+  "Salle C-10;Mardi;('11:00 AM', '12:45 PM')": "{'Nom': 'Ahmed', 'Code': 'Dko', 'Profession': 'd', 'Module': 'Maths', 'Demandes': ''}"
 }
